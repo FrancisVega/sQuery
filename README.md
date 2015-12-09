@@ -11,7 +11,7 @@ $("*").hide()
 ````javascript
 /* Oculta todas las capas de texto con menos del 10% de opacidad */
 $("%textLayers%").filter(function(){
-    return $$(this).opacity() < 10;
+    return $(this).opacity() < 10;
 }).hide();
 ```
 
