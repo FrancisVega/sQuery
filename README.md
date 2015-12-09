@@ -17,7 +17,7 @@ $("%textLayers%").filter(function(){
 
 ````javascript
 /* Borra todos los grupos vacíos */
-$("%groups%").isEmpty();
+$("%groups%").isEmpty().remove();
 ```
 
 ````javascript
