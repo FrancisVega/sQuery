@@ -4,7 +4,7 @@ Una pequeña librería con métodos encadenables "tipo jQuery" para Sketch
 # Ejemplos
 
 ````javascript
-/* Selecciona todas las capas y las oculta */
+/* Oculta todas las capas */
 $("*").hide()
 ```
 
