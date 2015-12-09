@@ -1,7 +1,12 @@
 # sQuery
-Una pequeña librería con métodos encadenables "tipo jQuery" para Sketch
+Una pequeña librería con métodos encadenables "tipo jQuery" para Sketch para hacer la parte de selección y filtrado de capas un poco más amigable :)
+
 
 # Ejemplos
+````javascript
+/* Importarla :) */
+@import 'sQuery.js';
+```
 
 ````javascript
 /* Oculta todas las capas */
