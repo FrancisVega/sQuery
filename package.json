@@ -1,0 +1,26 @@
+{
+  "name": "zen-sketch",
+  "version": "1.0.0",
+  "description": "A very personal collection of Sketch plugins",
+  "main": "common.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancisVega/ZEN-Sketch.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrancisVega/ZEN-Sketch/issues"
+  },
+  "homepage": "https://github.com/FrancisVega/ZEN-Sketch#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "jshint": "^2.8.0"
+  }
+}
