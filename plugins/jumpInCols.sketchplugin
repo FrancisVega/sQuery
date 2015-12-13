@@ -5,6 +5,10 @@
 
   $.fn.jumpInCols = function(value) {
 
+    function foo (){
+
+    }
+
     this.each(function() {
       var layer = $(this).getLayer();
       var currentPosition = layer.frame().x();

@@ -14,13 +14,13 @@ var plumber = require('gulp-plumber');
 //
 var dirs = {
     src: '',
-    dst: '/sketchplugins/ZEN',
+    dst: '/sketchplugins/ZEN/sQuery',
 };
 
 // Watch
 //
 gulp.task('watch', function(){
-    gulp.watch(dirs.src + 'ZEN/**/*', ['copy']);
+    gulp.watch(dirs.src + '**/*', ['copy']);
 });
 
 
@@ -29,12 +29,15 @@ gulp.task('watch', function(){
 //
 gulp.task('copy', function() {
     // Archivos en el raiz
-    gulp.src(['ZEN/**/*'], {cwd: dirs.src})
+    gulp.src(['plugins', 'sQuery.js'], {cwd: dirs.src})
     .pipe(gulp.dest(dirs.dst));
+
+    gulp.src(['plugins/**/*'], {cwd: dirs.src})
+    .pipe(gulp.dest(dirs.dst+"/plugins"));
 });
 
 gulp.task('lint', function() {
-  return gulp.src(dirs.src + 'ZEN/**/*.js')
+  return gulp.src(dirs.src + '**/*.js')
     .pipe(plumber())
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
