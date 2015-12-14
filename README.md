@@ -1,31 +1,31 @@
-# sQuery
-Una pequeña librería con métodos encadenables "tipo jQuery" para Sketch para hacer la parte de selección y filtrado de capas un poco más amigable :)
+# Query
+A growing small library of chain methods "in a jQuery way" for Sketch to make the selection and filter task a little easiest :)
 
 
-# Ejemplos
+# Some examples
 ````javascript
-/* Importarla :) */
+/* Import :) */
 @import 'sQuery.js';
 ```
 
 ````javascript
-/* Oculta todas las capas */
+/* Hide all layers and groups */
 $("*").hide()
 ```
 
 ````javascript
-/* Oculta todas las capas de texto con menos del 10% de opacidad */
+/* Hide all text layers with less than 10% opacity */
 $("%textLayers%").filter(function(){
     return $(this).opacity() < 10;
 }).hide();
 ```
 
 ````javascript
-/* Borra todos los grupos vacíos */
+/* Remove all empty groups */
 $("%groups%").isEmpty().remove();
 ```
 
 ````javascript
-/* Renombra las capas de imágenes */
+/* Rename all bitmaps layers */
 $("%images%").rename("Hi! I'm a bitmaps layer");
 ```
