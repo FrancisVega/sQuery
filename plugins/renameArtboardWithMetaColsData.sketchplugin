@@ -1,0 +1,31 @@
+@import '/repos/sQuery/sQuery.js';
+@import 'ZEN/sQuery/plugins/jumpInCols.sketchplugin';
+
+
+var layout = {
+  "exteriorGutter": true,
+  "name": "Large",
+  "cols": 16,
+  "breakpoint": 1440,
+  "gutter": 20,
+  "padding": 80
+};
+
+var layoutBody = (layout.breakpoint - (layout.padding*2));
+
+if(layout.exteriorGutter) {
+  layout.gutter = layout.gutter - (layout.gutter/2)
+    layoutBody = layoutBody - layout.gutter
+}
+
+
+$("%artboard%").rename(
+    layout.name + "-"
+    + layout.breakpoint + "-"
+    + layoutBody + "@" + layout.padding + "-"
+    + layout.cols + "@"
+    + ((layoutBody / layout.cols) - layout.gutter)
+    + " - Start Coord = " + ((1440-(layout.cols))/2)
+    );
+
+log((layout.breakpoint-(layout.padding*2))/layout.cols))

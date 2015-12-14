@@ -1,19 +1,20 @@
 
-  // jumpInCols Plugin
+// jumpInCols Plugin
 
 (function($){
 
   $.fn.jumpInCols = function(value) {
 
-    function foo (){
-
-    }
-
     this.each(function() {
+
       var layer = $(this).getLayer();
       var currentPosition = layer.frame().x();
       var finalPosition = currentPosition + value;
       layer.frame().setX(finalPosition);
+
+
+
+
     });
 
       return this;
