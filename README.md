@@ -24,7 +24,7 @@ $("%textLayers%").filter(function(){
 /* Loop through each group and rename it with and "index" */
 $("%groups%").each(function(idx){
     $(this).rename("I'm group number " + idx);
-}).hide();
+});
 ```
 
 ````javascript
