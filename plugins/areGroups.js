@@ -1,4 +1,4 @@
-/*!
+/**
  * sQuery plugin - areGroups 1.0
  * Francis Vega
  *
