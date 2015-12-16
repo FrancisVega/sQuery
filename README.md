@@ -35,3 +35,17 @@ $("%groups%").isEmpty().remove();
 ````javascript
 /* Rename all bitmaps layers */
 $("%images%").rename("Hi! I'm a bitmaps layer");
+```
+
+````javascript
+/* Get MSLayer object from query and log the class */
+$("%selected%").each(function(){
+  log($(this).MSLayer().class());
+});
+```
+
+# Plugins
+````javascript
+/* areGroups() Filter query and return just groups */
+$("%selected%").areGroups();
+```
