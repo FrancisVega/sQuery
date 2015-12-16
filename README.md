@@ -44,8 +44,30 @@ $("%selected%").each(function(){
 });
 ```
 
+# Write plugins
+````javascript
+/* Example of groups filter plugin */
+(function($){
+
+  $.fn.areGroups = function() {
+    var _layers = [];
+
+    this.each(function() {
+      // isGroup() is a "private" method of sQuery
+      if($(this).isGroup()) {
+        _layers.push(this);
+      }
+    });
+
+    this.layers = _layers.slice();
+    return this;
+  }
+
+}(sQuery));
+```
+
 # Plugins
 ````javascript
-/* areGroups() Filter query and return just groups */
-$("%selected%").areGroups();
+/* Using areGroups() filter plugin */
+$("%selected%").areGroups().rename("I'm a group");
 ```
