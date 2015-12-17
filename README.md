@@ -50,16 +50,25 @@ $("%selected%").each(function(){
 (function($){
 
   $.fn.areGroups = function() {
+    // New array to store filtered layers
     var _layers = [];
 
+    // this is a sQuery object and represent the queries layers
+    // this.each() iterates through every queries layers
     this.each(function() {
-      // isGroup() is a "private" method of sQuery
-      if($(this).isGroup()) {
+    // $(this) represent one query layer
+    // $(this).isGroup() is a private function of sQuery to determine if a sQuery layer object is a sketchapp LayerGroup
+    if($(this).isGroup()) {
+        // If $(this) is a group we put it into _layers array
         _layers.push(this);
       }
     });
 
+    // this.layers is the base array to store query layers
+    // "copy" _layers into this.layers
     this.layers = _layers.slice();
+    
+    // Retur this to allow chain methods
     return this;
   }
 
