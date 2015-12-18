@@ -45,8 +45,10 @@
 
   /**
    * Recorre todos los desdencientes desde el elemento dado.
-   * @param {object} sel Document, Artboard o Grupo desde el que rellenar el array con las capas.
-   * @return {array} allLayers Array global donde se almacenan los grupos y capas seleccionados
+   * @param {object} sel Document, Artboard o Grupo desde el que rellenar el
+   * array con las capas.
+   * @return {array} allLayers Array global donde se almacenan los grupos y
+   * capas seleccionados.
    */
 
   allLayers = [];
@@ -95,7 +97,8 @@
     }
 
     /**
-     * Filtra el array de capas para dejar solo aquellas que coincidan en el tipo (klass)
+     * Filtra el array de capas para dejar solo aquellas que coincidan en el
+     * tipo (klass).
      * @param {object|string} klass Determina el tipo de capa a filtrar
      * @return {[MSLayerClass]}
      * @example
@@ -305,8 +308,10 @@
     },
 
     /**
-     * Itera por cada uno de los elementos previamente seleccionados y devuelve el elemento
-     * @param {function} callback Una función a la que each llama por cada iteración
+     * Itera por cada uno de los elementos previamente seleccionados y devuelve
+     * el elemento.
+     * @param {function} callback Una función a la que each llama por cada
+     * iteración.
      * @return {sQuery}
      */
     each: function(callback) {
@@ -319,7 +324,8 @@
 
     /**
      * Itera por cada uno de los elementos filtrando los que devuelvan true
-     * @param {function} callback Una función a la que filter llama por cada iteración
+     * @param {function} callback Una función a la que filter llama por cada
+     * iteración.
      * @return {sQuery}
      */
 
@@ -711,16 +717,17 @@
 
     getCoord: function(coord, val) {
       var layer = this.layers[0];
-      var artboardRect = context.document.currentPage().currentArtboard().absoluteRect();
+      var AB_rect =
+        context.document.currentPage().currentArtboard().absoluteRect();
       if (val != undefined) {
         for (var i=0; i<this.layers.length; i++) {
 
           if(this.layers[i].parentGroup().class() == MSLayerGroup) {
             var parentGroupRect = this.layers[i].parentGroup().absoluteRect();
             if(coord == "x") {
-              this.layers[i].frame().setX(val + artboardRect.x() - parentGroupRect.x());
+              this.layers[i].frame().setX(val+AB_rect.x()-parentGroupRect.x());
             } else if(coord == "y") {
-              this.layers[i].frame().setY(val + artboardRect.y() - parentGroupRect.y());
+              this.layers[i].frame().setY(val+AB_rect.y()-parentGroupRect.y());
             }
 
           } else {
@@ -736,9 +743,9 @@
       } else {
         // Get
         if(coord == "x") {
-          return layer.absoluteRect().x() - artboardRect.x();
+          return layer.absoluteRect().x() - AB_rect.x();
         } else if(coord == "y") {
-          return layer.absoluteRect().y() - artboardRect.y();
+          return layer.absoluteRect().y() - AB_rect.y();
         }
       }
       return this;
