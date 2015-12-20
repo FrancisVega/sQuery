@@ -1,0 +1,22 @@
+{
+  "name": "sQuery",
+  "version": "1.0.0",
+  "description": "A growing small library of chain methods in a jQuery way for Sketch to make the selection and filter task a little easiest :)",
+  "main": "sQuery.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrancisVega/sQuery.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrancisVega/sQuery/issues"
+  },
+  "homepage": "https://github.com/FrancisVega/sQuery#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+  }
+}

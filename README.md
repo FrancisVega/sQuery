@@ -1,31 +1,94 @@
 # sQuery
-Una pequeña librería con métodos encadenables "tipo jQuery" para Sketch para hacer la parte de selección y filtrado de capas un poco más amigable :)
+A growing small library of chain methods "in a jQuery way" for Sketch to make the selection and filter task a little easiest :)
 
 
-# Ejemplos
+# Some (silly) examples
 ````javascript
-/* Importarla :) */
+/* Import :) */
 @import 'sQuery.js';
 ```
 
 ````javascript
-/* Oculta todas las capas */
+/* Hide all layers and groups */
 $("*").hide()
 ```
 
 ````javascript
-/* Oculta todas las capas de texto con menos del 10% de opacidad */
+/* Hide all text layers with less than 10% opacity */
 $("%textLayers%").filter(function(){
     return $(this).opacity() < 10;
 }).hide();
 ```
 
 ````javascript
-/* Borra todos los grupos vacíos */
+/* Loop through each group and rename it with and "index" */
+$("%groups%").each(function(idx){
+    $(this).rename("I'm group number " + idx);
+});
+```
+
+````javascript
+/* Remove all empty groups */
 $("%groups%").isEmpty().remove();
 ```
 
 ````javascript
-/* Renombra las capas de imágenes */
+/* Rename all bitmaps layers */
 $("%images%").rename("Hi! I'm a bitmaps layer");
 ```
+
+````javascript
+/* Get MSLayer object from query and log the class */
+$("%selected%").each(function(){
+  log($(this).MSLayer().class());
+});
+```
+
+# Write plugins
+````javascript
+/* Example of groups filter plugin */
+(function($){
+
+  $.fn.areGroups = function() {
+    // New array to store filtered layers
+    var _layers = [];
+
+    // this is a sQuery object and represent the queries layers
+    // this.each() iterates through every queries layers
+    this.each(function() {
+    // $(this) represent one query layer
+    // $(this).isGroup() is a private function of sQuery to determine if a sQuery layer object is a sketchapp LayerGroup
+    if($(this).isGroup()) {
+        // If $(this) is a group we put it into _layers array
+        _layers.push(this);
+      }
+    });
+
+    // this.layers is the base array to store query layers
+    // "copy" _layers into this.layers
+    this.layers = _layers.slice();
+    
+    // Retur this to allow chain methods
+    return this;
+  }
+
+}(sQuery));
+```
+
+# Plugins
+````javascript
+/* Using areGroups() filter plugin */
+$("%selected%").areGroups().rename("I'm a group");
+```
+
+# License
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Francis Vega
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
