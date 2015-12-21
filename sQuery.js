@@ -53,8 +53,7 @@
   allLayers = [];
   function fillArray(sel) {
     var layers = sel.layers();
-    var len = layers.length();
-    for (var i=0; i < len; i++) {
+    for (var i=0, len=layers.length(); i < len; i++) {
       var layer = layers.objectAtIndex(i);
       if ([layer class] == MSLayerGroup) {
         allLayers.push(layer);
@@ -112,9 +111,8 @@
 
       if (typeof(what) == "object") {
         var layer;
-        var len = allLayers.length;
         _layers = [];
-        for(i=0; i<len; i++) {
+        for(var i=0, len=allLayers.length; i<len; i++) {
           layer = allLayers[i];
           if(sQuery().is(layer, what)) {
             _layers.push(layer);
@@ -133,16 +131,15 @@
           case "%selected%":
             var _mslayers = context.selection;
             _layers = [];
-            for(i=0; i<_mslayers.count(); i++) {
+            for(i=0, len=_mslayers.count(); i<len; i++) {
               _layers.push(_mslayers.objectAtIndex(i));
             }
             return _layers;
 
           default:
             var layer;
-            var len = allLayers.length;
             _layers = [];
-            for(i=0; i<len; i++) {
+            for(i=0, len=allLayers.length; i<len; i++) {
               layer = allLayers[i];
               if(layer.name() == what) {
                 _layers.push(layer);
@@ -189,7 +186,7 @@
           _layers = filterLayersBy(MSBitmapLayer);
           break;
 
-        case "%textLayer%":
+        case "%textLayers%":
           _layers = filterLayersBy(MSTextLayer);
           break;
 
@@ -311,7 +308,7 @@
      * @return {sQuery}
      */
     each: function(callback) {
-      for(var i = 0; i < this.layers.length; ++i) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         callback.call(this.layers[i], i);
       }
 
@@ -327,7 +324,7 @@
     filter: function(callback) {
       var r = [];
       var k;
-      for(var i = 0; i < this.layers.length; ++i) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         k = callback.call(this.layers[i], i);
         if (k){
           r.push(this.layers[i]);
@@ -345,7 +342,7 @@
      */
 
     rename: function(name) {
-      for (var i=0; i<this.layers.length; i++) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         this.layers[i].name = name;
       }
       return this;
@@ -358,8 +355,7 @@
 
     isLocked: function(neg) {
       var _layers = [];
-
-      for (var i=0; i<this.layers.length; i++) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         if (this.layers[i].isLocked()) {
           _layers.push(this.layers[i]);
         }
@@ -380,7 +376,7 @@
       var _layers = [];
       var strLen = str.length;
       var layerName;
-      for (var i=0; i<this.layers.length; i++) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         layerName = this.layers[i].name();
 
         if(layerName.substr(0, strLen) == str) {
@@ -403,7 +399,7 @@
       var _layers = [];
       var strLen = str.length;
       var layerName;
-      for (var i=0; i<this.layers.length; i++) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         layerName = this.layers[i].name();
         layerNameLen = layerName.length();
 
@@ -426,7 +422,7 @@
     contains: function(str) {
       var _layers = [];
       var layerName;
-      for (var i=0; i<this.layers.length; i++) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
         layerName = this.layers[i].name();
 
         if(layerName.split(str).length > 1) {
@@ -447,7 +443,7 @@
     UISelect: function(){
       // Primero deseleccionamos todo
       doc.currentPage().deselectAllLayers();
-        for (var i=0; i<this.layers.length; i++) {
+      for(var i=0, len=this.layers.length; i<len; ++i) {
           this.layers[i].select_byExpandingSelection(true, true);
         }
       return this;
@@ -464,7 +460,7 @@
       var brothers = bigParent.layers();
 
       var _layers = [];
-      for (var i=0; i<brothers.count(); i++) {
+      for (var i=0, len=brothers.count(); i<len; i++) {
         _layers.push(brothers.objectAtIndex(i));
       }
 
@@ -482,7 +478,7 @@
       var childs = parent.layers();
 
       var _layers = [];
-      for (var i=0; i<childs.count(); i++) {
+      for (var i=0, len=childs.count(); i<len; i++) {
         _layers.push(childs.objectAtIndex(i));
       }
 
@@ -513,7 +509,7 @@
 
     withName: function(name) {
       var _layers = [];
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         if (this.layers[i].name() == name) {
           _layers.push(this.layers[i]);
         }
@@ -529,7 +525,7 @@
 
     hasClickThrought: function() {
       var _layers = [];
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         if (this.layers[i].hasClickThrough() == 1) {
           _layers.push(this.layers[i]);
         }
@@ -544,7 +540,7 @@
      */
 
     setHasClickThrough: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].setHasClickThrough(0);
       }
       return this;
@@ -556,7 +552,7 @@
      */
 
     toggleClickThrought: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].setHasClickThrough(!this.layers[i].hasClickThrough());
       }
       return this;
@@ -569,7 +565,7 @@
 
     isEmpty: function() {
       var _layers = [];
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         if (this.isGroup(this.layers[i].class())) {
           if (this.layers[i].layers().length() === 0) {
             _layers.push(this.layers[i]);
@@ -587,7 +583,7 @@
 
     isVisible: function() {
       var _layers = [];
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         if(this.layers[i].isVisible()) {
           _layers.push(this.layers[i]);
         }
@@ -603,7 +599,7 @@
 
     isHidden: function() {
       var _layers = [];
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         if(!this.layers[i].isVisible()) {
           _layers.push(this.layers[i]);
         }
@@ -618,7 +614,7 @@
      */
 
     show: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].setIsVisible(true);
       }
       return this;
@@ -630,7 +626,7 @@
      */
 
     hide: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].setIsVisible(false);
       }
       return this;
@@ -642,7 +638,7 @@
      */
 
     lock: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].setIsLocked(true);
       }
       return this;
@@ -654,7 +650,7 @@
      */
 
     unlock: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].setIsLocked(false);
       }
       return this;
@@ -676,7 +672,7 @@
      */
 
     remove: function() {
-      for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
         this.layers[i].parentGroup().removeLayer(this.layers[i]);
       }
       return this;
@@ -701,7 +697,7 @@
       var layer = this.layers[0];
       val = val / 100;
       if (val != undefined) {
-        for (var i=0; i<this.layers.length; i++) {
+      for (var i=0, len=this.layers.length; i<len; i++) {
           this.layers[i].style().contextSettings().setOpacity(val);
         }
       } else {
@@ -710,12 +706,17 @@
       return this;
     },
 
+    /**
+     * ...
+     * {param} coord Coordenada x o y
+     * {param} val
+     */
     getCoord: function(coord, val) {
       var layer = this.layers[0];
       var artboardRect = context.document.currentPage().currentArtboard().absoluteRect();
       if (val != undefined) {
-        for (var i=0; i<this.layers.length; i++) {
-
+        // Set
+      for (var i=0, len=this.layers.length; i<len; i++) {
           if(this.layers[i].parentGroup().class() == MSLayerGroup) {
             var parentGroupRect = this.layers[i].parentGroup().absoluteRect();
             if(coord == "x") {
@@ -723,9 +724,7 @@
             } else if(coord == "y") {
               this.layers[i].frame().setY(val + artboardRect.y() - parentGroupRect.y());
             }
-
           } else {
-
             if(coord == "x") {
               this.layers[i].frame().setX(val);
             } else if(coord == "y") {
@@ -768,5 +767,3 @@
   };
 }
 )();
-
->>>>>>> 4915b7e46075b4a7337729212514fed33a6c5e21
