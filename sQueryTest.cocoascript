@@ -1,0 +1,30 @@
+// Import sQuery
+@import 'sQuery.js';
+
+// Import sQuery plugins
+@import 'plugins/move.js';
+@import 'plugins/areGroups.js';
+
+// Layers
+var textLayers = $("%textLayers%");
+var shapes = $("%shapes%");
+var groups = $("%groups%");
+
+// Text Layers
+// Name
+var assert = false;
+var layerOneName = textLayers.layers[0].name();
+var layerTwoName = textLayers.layers[1].name();
+if (layerOneName == "sQuery 1.0" && layerTwoName == "sQuery 1.0 - style") {
+  assert = true;
+}
+// Count
+if (textLayers.length == 2) {
+  assert = true;
+}
+// Final
+if(assert) {
+  log("TextLayers Passed");
+} else {
+  log("Error on TextLayers test");
+}
