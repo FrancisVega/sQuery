@@ -84,7 +84,7 @@ $("%selected%").areGroups().rename("I'm a group");
 $("%selected%").areShapes().UISelect();
 
 /* Move selected layers by 20 units in x at fixed pixel coords */
-$("%selected%").move(20, 0, true);
+$("%selected%").move({"x":20, "y":0}, true);
 ```
 
 # License
