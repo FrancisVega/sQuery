@@ -67,7 +67,7 @@ $("%selected%").each(function(){
     // this.layers is the base array to store query layers
     // "copy" _layers into this.layers
     this.layers = _layers.slice();
-    
+
     // Retur this to allow chain methods
     return this;
   }
@@ -77,8 +77,14 @@ $("%selected%").each(function(){
 
 # Plugins
 ````javascript
-/* Using areGroups() filter plugin */
+/* Rename groups from selection */
 $("%selected%").areGroups().rename("I'm a group");
+
+/* re-Select in Sketch just the shape layers from sketch selection */
+$("%selected%").areShapes().UISelect();
+
+/* Move selected layers by 20 units in x at fixed pixel coords */
+$("%selected%").move(20, 0, true);
 ```
 
 # License
