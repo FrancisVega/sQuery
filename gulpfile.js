@@ -19,11 +19,12 @@ gulp.task('watch', function(){
 gulp.task('copy', function() {
   console.log("Copy sQuery in " + dirs.dst);
   gulp.src(['plugins', 'sQuery.js'], {cwd: dirs.src})
+  .pipe(gulp.dest(dirs.dst));
 
   console.log("Copy sQueryTest in " + dirs.dst);
   gulp.src(['sQueryTest.cocoascript'], {cwd: dirs.src})
-
   .pipe(gulp.dest(dirs.dst));
+
   gulp.src(['plugins/**/*'], {cwd: dirs.src})
   .pipe(gulp.dest(dirs.dst+"/plugins"));
 });
