@@ -1,5 +1,5 @@
-@import 'zen.sketchplugin/contents/sketch/squery/squery.js';
-@import 'zen.sketchplugin/contents/sketch/squery/plugins/move.js';
-@import 'zen.sketchplugin/contents/sketch/squery/plugins/aregroups.js';
-@import 'zen.sketchplugin/contents/sketch/squery/plugins/areshapes.js';
+@import 'zen.sketchplugin/contents/sketch/squery/sQuery.js';
+@import 'zen.sketchplugin/contents/sketch/squery/plugins/core.move.js';
+@import 'zen.sketchplugin/contents/sketch/squery/plugins/core.aregroups.js';
+@import 'zen.sketchplugin/contents/sketch/squery/plugins/core.areshapes.js';
 @import 'zen.sketchplugin/contents/sketch/squery/squerytest.cocoascript';
