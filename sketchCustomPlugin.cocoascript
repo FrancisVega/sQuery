@@ -2,4 +2,4 @@
 @import 'zen.sketchplugin/contents/sketch/squery/plugins/core.move.js';
 @import 'zen.sketchplugin/contents/sketch/squery/plugins/core.aregroups.js';
 @import 'zen.sketchplugin/contents/sketch/squery/plugins/core.areshapes.js';
-@import 'zen.sketchplugin/contents/sketch/squery/squerytest.cocoascript';
+@import 'zen.sketchplugin/contents/sketch/squery/sQueryTest.cocoascript';
