@@ -112,11 +112,11 @@
       fillArray(doc.currentPage().currentArtboard());
       //allLayers.reverse();
 
+      // Query de tipo objeto
       if (typeof(what) == "object") {
         var layer;
-        var len = allLayers.length;
         _layers = [];
-        for(i=0; i<len; i++) {
+        for(i=0, len = allLayers.length; i<len; i++) {
           layer = allLayers[i];
           if(sQuery().is(layer, what)) {
             _layers.push(layer);
@@ -125,13 +125,15 @@
         return _layers;
       }
 
+      // Query de tipo string
       if (typeof(what) == "string") {
 
         switch(what) {
-
+          // Todos
           case "*":
             return allLayers;
 
+          // Elementos seleccionados
           case "%selected%":
             var _mslayers = context.selection;
             _layers = [];
@@ -140,11 +142,11 @@
             }
             return _layers;
 
+          // Nombre de capa
           default:
             var layer;
-            var len = allLayers.length;
             _layers = [];
-            for(i=0; i<len; i++) {
+            for(i=0, len = allLayers.length; i<len; i++) {
               layer = allLayers[i];
               if(layer.name() == what) {
                 _layers.push(layer);
@@ -156,11 +158,13 @@
               throw new Error('(sQuery Warning) ' + selector + ' not found');
             }
             return _layers;
-
         }
       }
     }
 
+    /*
+     * Tipo de query
+     */
     if (typeof selector === "string") {
 
       switch(selector) {
@@ -294,6 +298,9 @@
      */
 
     isShape: function(layer){
+      if (layer == undefined) {
+        layer = this.layers[0];
+      }
       return SQUERY.prototype.is(layer, MSShapeGroup);
     },
 
@@ -715,10 +722,15 @@
       return this;
     },
 
+    /**
+     * Obtiene el valor absolute de las coordenads de la capa o grupo
+     * @param {number} val Valor de opacidad de 0 a 100
+     * @return {sQuery}
+     */
+
     getCoord: function(coord, val) {
       var layer = this.layers[0];
-      var AB_rect =
-        context.document.currentPage().currentArtboard().absoluteRect();
+      var AB_rect = context.document.currentPage().currentArtboard().absoluteRect();
       if (val != undefined) {
         for (var i=0; i<this.layers.length; i++) {
 
@@ -762,7 +774,7 @@
     },
 
     /**
-     * ...
+     *
      * @param {number} val Valor de coordenada x
      * @return {sQuery}
      */
