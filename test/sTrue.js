@@ -6,10 +6,8 @@ var sTrue;
     return new STRUE(testName);
   };
 
-
   var STRUE = function(testName) {
     this.testName = testName;
-
   }
 
   /* @sTrue API */
