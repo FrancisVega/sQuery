@@ -18,7 +18,7 @@ gulp.task('watch', function(){
 // Copy into sketch plugin folder
 gulp.task('copy', function() {
   console.log("Copy sQuery in " + dirs.dst);
-  gulp.src(['plugins', 'sQuery.js'], {cwd: dirs.src})
+  gulp.src(['plugins', 'sQuery.js', 'sTrue.js', 'sketchCustomPlugin.cocoascript'], {cwd: dirs.src})
   .pipe(gulp.dest(dirs.dst));
 
   console.log("Copy sQueryTest in " + dirs.dst);
