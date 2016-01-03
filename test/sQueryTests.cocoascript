@@ -1,38 +1,35 @@
-// Layers
-var textLayers = $("%textLayers%");
-var shapes = $("%shapes%");
-var groups = $("%groups%");
+@import 'zen.sketchplugin/Contents/Sketch/sQuery/sQuery.js';
+@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.move.js';
+@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areFroups.js';
+@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areShapes.js';
 
-// Text Layers
-// Name
-var assert = false;
-var layerOneName = textLayers.layers[0].name();
-var layerTwoName = textLayers.layers[1].name();
-if (layerOneName == "sQuery 1.0" && layerTwoName == "sQuery 1.0 - style") {
-  assert = true;
-}
-// Count
-if (textLayers.length == 2) {
-  assert = true;
-}
-// Final
-if(assert) {
-  log("TextLayers Passed");
-} else {
-  log("Error on TextLayers test");
-}
+// sTrue
+@import 'zen.sketchplugin/contents/sketch/sTrue/sTrue.js';
 
-// areGroups-core-plugin
-var assert = false;
-var shapes = $('*').areShapes();
+log("Start testing suite\n");
 
-if (shapes.layers.length == 24) {
-  assert = true;
-}
+// Passed!
+log("\n");
+log("Passed with no auto meesage");
+sTrue.true(1==1);
+sTrue.false(0==1);
+sTrue.equal("1", 1);
+sTrue.notequal("hello", "bye");
 
-// Final
-if(assert) {
-  log("areShapes-core-plugin Passed");
-} else {
-  log("Error on areShapes.core-plugin test");
-}
+log("\n");
+log("Not Passeds with auto msgs");
+// Not Passed without msgs
+sTrue.true(0==1);
+sTrue.false(1==1);
+sTrue.equal("a", "A");
+sTrue.notequal("1", 1);
+
+log("\n");
+log("Not Passeds with custom msgs");
+// Not Passed!
+sTrue.true(0==1, "Needs return true! and 0 == 1 is false");
+sTrue.false(1==1, "Needs return false! and 1 == 1 is true");
+sTrue.equal("a", "A", "Needs to be equal! and \"a\" == \"A\" are not equal");
+sTrue.notequal("1", 1, "Needs to be not equal!!! and \"1\" == 1 are equal");
+
+log("\nEnd testing suite");
