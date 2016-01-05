@@ -66,6 +66,28 @@
     }
   }
 
+  arrayAllLayers = [];
+  function fillArrayJustLayers(sel) {
+    var layers = sel.layers();
+    for (var i=0, len=layers.length(); i < len; i++) {
+      var layer = layers.objectAtIndex(i);
+      if ([layer class] == MSLayerGroup) {
+        //fillArrayJustLayers(layer);
+        arrayAllLayers.push(layer);
+      } else {
+        arrayAllLayers.push(layer);
+      }
+    }
+  }
+
+  /**
+   * Muestra un mensaje en sketchapp
+   * @param {string} message Mensaje a mostrar
+   */
+  var showMessage = function (message) {
+    doc.showMessage(message);
+  }
+
   /**
    * Función principal
    * @param {string|object} selector El selector
@@ -88,15 +110,6 @@
     var keyChar = "%";
 
     /**
-     * Muestra un mensaje en sketchapp
-     * @param {string} message Mensaje a mostrar
-     */
-
-    function showMessage(message) {
-      doc.showMessage(message);
-    }
-
-    /**
      * Filtra el array de capas para dejar solo aquellas que coincidan en el
      * tipo (klass).
      * @param {object|string} klass Determina el tipo de capa a filtrar
@@ -109,13 +122,13 @@
 
     function filterLayersBy(what) {
       var _layers = [];
+      allLayers = [];
       fillArray(doc.currentPage().currentArtboard());
-      //allLayers.reverse();
 
       // Query de tipo objeto
       if (typeof(what) == "object") {
         var layer;
-        _layers = [];
+        var _layers = [];
         for(var i=0, len=allLayers.length; i<len; i++) {
           layer = allLayers[i];
           if(sQuery().is(layer, what)) {
@@ -132,6 +145,11 @@
           // Todos
           case "*":
             return allLayers;
+
+          case "%hierarchy%":
+            arrayAllLayers = [];
+            fillArrayJustLayers(doc.currentPage().currentArtboard());
+            return arrayAllLayers;
 
           // Elementos seleccionados
           case "%selected%":
@@ -171,6 +189,10 @@
 
         case "*":
           _layers = filterLayersBy("*");
+          break;
+
+        case "%hierarchy%":
+          _layers = filterLayersBy("%hierarchy%");
           break;
 
         case "%artboards%":
@@ -217,6 +239,7 @@
 
     this.layers = _layers.slice();
     this.length = _layers.length;
+    this.query = selector;
 
     // Return self object
     return this;
@@ -227,12 +250,6 @@
 
   sQuery.fn = SQUERY.prototype = {
 
-    /**
-     * test
-     */
-    test: function(){
-      log("star testing...");
-    },
     /**
      * ...
      * @param {object} layer Un objeto MSLayer con la capa
@@ -704,6 +721,14 @@
 
     /**
      * ...
+     * @return {mixed} The query used
+     */
+    queryUsed: function() {
+      return this.query;
+    },
+
+    /**
+     * ...
      * @param {number} val Valor de opacidad de 0 a 100
      * @return {sQuery}
      */
@@ -712,7 +737,7 @@
       var layer = this.layers[0];
       val = val / 100;
       if (val != undefined) {
-      for (var i=0, len=this.layers.length; i<len; i++) {
+        for (var i=0, len=this.layers.length; i<len; i++) {
           this.layers[i].style().contextSettings().setOpacity(val);
         }
       } else {
@@ -777,8 +802,38 @@
 
     y: function(val) {
       return this.getCoord("y", val)
-    }
+    },
 
-  };
+
+    /**
+     * Agrupar capas y/o grupos
+     */
+    group: function(name) {
+
+      if(this.queryUsed() == "*") {
+        showMessage('(sQuery Warning) Use %hierarchy% instead of \"*\"');
+        throw new Error('(sQuery Warning) Use %hierarchy% instead of \"*\"');
+      }
+
+      var parentGroup = this.MSLayer().parentGroup();
+      var newGroup = parentGroup.addLayerOfType("group");
+      newGroup.name = name;
+      var layer;
+
+      for (var i=0, len=this.layers.length; i<len; i++) {
+        layer =  this.layers[i];
+        newGroup.addLayers([layer]);
+        parentGroup.removeLayer(layer);
+      }
+
+      // resize group
+      newGroup.resizeRoot(0);
+
+      // select new group 
+      //newGroup.setIsSelected(true);
+
+      return newGroup;
+    }
+  }
 }
 )();
