@@ -1,3 +1,4 @@
+// sQuery
 @import 'zen.sketchplugin/Contents/Sketch/sQuery/sQuery.js';
 @import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.move.js';
 @import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areFroups.js';
@@ -6,30 +7,39 @@
 // sTrue
 @import 'zen.sketchplugin/contents/sketch/sTrue/sTrue.js';
 
-log("Start testing suite\n");
+// Tests
 
-// Passed!
-log("\n");
-log("Passed with no auto meesage");
-sTrue.true(1==1);
-sTrue.false(0==1);
-sTrue.equal("1", 1);
-sTrue.notequal("hello", "bye");
+sTrue("Basics", function() {
+  // @Sketch
+  // Tiene que existir al menos un artboard
 
-log("\n");
-log("Not Passeds with auto msgs");
-// Not Passed without msgs
-sTrue.true(0==1);
-sTrue.false(1==1);
-sTrue.equal("a", "A");
-sTrue.notequal("1", 1);
+  // @Setup
 
-log("\n");
-log("Not Passeds with custom msgs");
-// Not Passed!
-sTrue.true(0==1, "Needs return true! and 0 == 1 is false");
-sTrue.false(1==1, "Needs return false! and 1 == 1 is true");
-sTrue.equal("a", "A", "Needs to be equal! and \"a\" == \"A\" are not equal");
-sTrue.notequal("1", 1, "Needs to be not equal!!! and \"1\" == 1 are equal");
+  // @Tests
+  this.true($().typename == 'sQuery');
+  this.equal($("%selected%").queryUsed(), "%selected%");
+})
 
-log("\nEnd testing suite");
+sTrue("Agrupar capas", function() {
+
+  // @Sketch
+  // Tiene que haber al menos una capa de tipo Shape
+  // TODO: Deshacer el test desagrupando las capas y borrando el gruopo
+
+  // @Setup
+  var $selection = $("%shapes%");
+  var groupName = "Froiland";
+  var newGroup = $selection.group(groupName);
+
+  // @Tests
+  this.class(newGroup, "MSLayerGroup", "La clase de newGroup tiene que ser MSLayerGroup");
+  this.equal(newGroup.name(), groupName, "El nombre de la capa debe ser " + groupName);
+  this.true($selection.length > 0);
+
+  // @End
+  //$selection, groupName, newGroup = null;
+
+
+
+});
+
