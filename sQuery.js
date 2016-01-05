@@ -705,7 +705,8 @@
 
     remove: function() {
       for (var i=0, len=this.layers.length; i<len; i++) {
-        this.layers[i].parentGroup().removeLayer(this.layers[i]);
+       this.layers[i].parentGroup().removeLayer(this.layers[i]);
+       this.layers[i] = null;
       }
       return this;
     },
@@ -815,25 +816,43 @@
         throw new Error('(sQuery Warning) Use %hierarchy% instead of \"*\"');
       }
 
+      // Creamos el grupo en el parent de la última capa
       var parentGroup = this.MSLayer().parentGroup();
       var newGroup = parentGroup.addLayerOfType("group");
       newGroup.name = name;
       var layer;
 
       for (var i=0, len=this.layers.length; i<len; i++) {
+        // Capa en la seleccion de query
         layer =  this.layers[i];
+        currentLayerParentGroup = this.layers[i].parentGroup();
+        // Añadimos la capa al grupo
         newGroup.addLayers([layer]);
-        parentGroup.removeLayer(layer);
+        // borramos la capa desde su parent
+        currentLayerParentGroup.removeLayer(layer);
       }
 
       // resize group
       newGroup.resizeRoot(0);
 
       // select new group 
-      //newGroup.setIsSelected(true);
+      newGroup.setIsSelected(true);
 
       return newGroup;
-    }
+    },
+
+    createShapeLayer: function(name) {
+
+      var parentGroup = this.MSLayer();
+      var newLayer = parentGroup.addLayerOfType("rectangle");
+      newLayer.name = name;
+
+      newLayer.setIsSelected(true);
+
+      return newLayer;
+
+    },
+
   }
 }
 )();
