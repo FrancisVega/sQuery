@@ -20,16 +20,66 @@ sTrue("Basics", function() {
   this.equal($("%selected%").queryUsed(), "%selected%");
 })
 
-sTrue("Agrupar capas", function() {
-
-  // @Sketch
-  // Tiene que haber al menos una capa de tipo Shape
-  // TODO: Deshacer el test desagrupando las capas y borrando el gruopo
+sTrue("Crear una capa tipo Shape", function() {
 
   // @Setup
+  // Select first artboard
+  var artboards = context.document.currentPage().artboards();
+  artboards[0].setIsSelected(true);
+  var newLayer = $('%artboard%').createShapeLayer("Froi");
+
+  // @Tests
+  this.class(newLayer, "MSShapeGroup", "La clase de newLayer tiene que ser MSShapeGroup");
+
+  // @End
+  $(newLayer).remove();
+  newLayer = null;
+  artboards[0].setIsSelected(true);
+
+});
+
+
+sTrue("Borra una capa", function() {
+
+  // @Setup
+  var artboards = context.document.currentPage().artboards();
+  artboards[0].setIsSelected(true);
+  var newLayer = $('%artboard%').createShapeLayer("Froi");
+  $(newLayer).remove();
+
+  // @Tests
+  this.class(newLayer, "MSShapeGroup");
+
+  // @End
+  newLayer = null;
+  artboards[0].setIsSelected(true);
+
+});
+
+
+
+sTrue("Agrupar capas", function() {
+
+  // @Setup
+  var artboards = context.document.currentPage().artboards();
+  artboards[0].setIsSelected(true);
+  var newLayer01 = $('%artboard%').createShapeLayer("Layer01");
+  var newLayer02 = $('%artboard%').createShapeLayer("Layer02");
   var $selection = $("%shapes%");
   var groupName = "Froiland";
   var newGroup = $selection.group(groupName);
+
+  // @Tests
+  this.class(newGroup, "MSLayerGroup");
+  this.equal(newGroup.layers().length(), 2)
+
+  // @End
+  $(newLayer01).remove();
+  $(newLayer02).remove();
+  newLayer01, newLayer02 = null;
+
+  var artboards = context.document.currentPage().artboards();
+  artboards[0].setIsSelected(true);
 
   // @Tests
   this.class(newGroup, "MSLayerGroup", "La clase de newGroup tiene que ser MSLayerGroup");
@@ -37,9 +87,9 @@ sTrue("Agrupar capas", function() {
   this.true($selection.length > 0);
 
   // @End
-  //$selection, groupName, newGroup = null;
+  $selection, groupName, newGroup = null;
 
-
+  var artboards = context.document.currentPage().artboards();
+  artboards[0].setIsSelected(true);
 
 });
-
