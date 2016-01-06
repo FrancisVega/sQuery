@@ -40,8 +40,8 @@
    * Constructor
    */
 
-  sQuery = $ = function(selector) {
-    return new SQUERY(selector);
+  sQuery = $ = function(selector, page, artboard) {
+    return new SQUERY(selector, page, artboard);
   };
 
   /**
@@ -94,7 +94,7 @@
    * @return {sQuery}
    */
 
-  var SQUERY = function(selector) {
+  var SQUERY = function(selector, page, artboard) {
 
     // this
     this.autor = "Francis Vega";
@@ -123,7 +123,7 @@
     function filterLayersBy(what) {
       var _layers = [];
       allLayers = [];
-      fillArray(doc.currentPage().currentArtboard());
+      fillArray(context.document.currentPage().currentArtboard());
 
       // Query de tipo objeto
       if (typeof(what) == "object") {
@@ -807,47 +807,85 @@
 
 
     /**
-     * Agrupar capas y/o grupos
+     * Agrupa la selección de elementos.
+     * @param {string} name Nombre del grupo.
+     * @return {MSLayer}
      */
+
     group: function(name) {
 
+      name = name || "NewGroup";
+
+      // No se puede utilizar con el selector * porque este selecciona a la vez
+      // grupos y capas hijas del mismo y Sketch 'peta'
       if(this.queryUsed() == "*") {
         showMessage('(sQuery Warning) Use %hierarchy% instead of \"*\"');
         throw new Error('(sQuery Warning) Use %hierarchy% instead of \"*\"');
       }
 
       // Creamos el grupo en el parent de la última capa
-      var parentGroup = this.MSLayer().parentGroup();
-      var newGroup = parentGroup.addLayerOfType("group");
+      var parent = this.MSLayer().parentGroup();
+      // Creamos el grupo en sketch
+      var newGroup = parent.addLayerOfType("group");
+      // Lo renombramos
       newGroup.name = name;
-      var layer;
 
+      var layer;
       for (var i=0, len=this.layers.length; i<len; i++) {
-        // Capa en la seleccion de query
         layer =  this.layers[i];
+        // Guardamos el padre actual para quitar la capa posteriormente
         currentLayerParentGroup = this.layers[i].parentGroup();
         // Añadimos la capa al grupo
         newGroup.addLayers([layer]);
-        // borramos la capa desde su parent
+        // Borramos la capa desde su parent anterior
         currentLayerParentGroup.removeLayer(layer);
       }
 
-      // resize group
+      // Resize group
       newGroup.resizeRoot(0);
 
-      // select new group 
-      newGroup.setIsSelected(true);
+      // Select new group
+      //newGroup.setIsSelected(true);
 
       return newGroup;
+
     },
+
+    /**
+     * Crea un artboard
+     * @param {string} name Nombre del grupo.
+     * @return {MSLayer}
+     */
+
+    createArtboard: function(name, x, y, width, height) {
+
+      var artboard = MSArtboardGroup.new();
+      var frame = artboard.frame();
+      frame.setX(x);
+      frame.setY((y));
+      frame.setWidth(width);
+      frame.setHeight(height);
+      artboard.name = name;
+      context.document.currentPage().addLayers([artboard]);
+      context.document.currentPage().deselectAllLayers();
+      context.document.currentPage().currentArtboard = artboard;
+      artboard.setIsSelected(true);
+      return artboard;
+
+    },
+
+    /**
+     * Crea una capa Tipo Shape. Por ahora para usar en los tests.
+     * @param {string} name Nombre del grupo.
+     * @return {MSLayer}
+     */
 
     createShapeLayer: function(name) {
 
       var parentGroup = this.MSLayer();
       var newLayer = parentGroup.addLayerOfType("rectangle");
       newLayer.name = name;
-
-      newLayer.setIsSelected(true);
+      //newLayer.setIsSelected(true);
 
       return newLayer;
 
