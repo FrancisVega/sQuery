@@ -3,60 +3,52 @@
 @import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.move.js';
 @import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areFroups.js';
 @import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areShapes.js';
-
 // sTrue
 @import 'zen.sketchplugin/contents/sketch/sTrue/sTrue.js';
 
-// ---------------------------------- Test ---------------------------------- //
+/**
+ * Comprueba que se puede crear un artboard
+ */
 sTrue("Artboard", function() {
+
   // @Setup
   var artboard = $().createArtboard("test-artboard", 0, 0, 800, 600);
-  // @Tests
-  this.equal(artboard.name(), "test-artboard");
-  // @End
-  artboard.parentGroup().removeLayer(artboard);
-  artboard = null;
-});
-
-// ---------------------------------- Test ---------------------------------- //
-sTrue("Basics", function() {
-  // @Setup
-  var artboard = $().createArtboard("test-artboard", 0, 0, 1024, 768);
 
   // @Tests
-  this.true($().typename == 'sQuery');
-  this.equal($("*").queryUsed(), "*");
+  this.class( artboard, "MSArtboardGroup");
+  this.equal( artboard.name(), "test-artboard");
+
   // @End
-  artboard.parentGroup().removeLayer(artboard);
+  $(artboard).remove();
 
 });
-// ---------------------------------- Test ---------------------------------- //
+
+/**
+ * Comprueba que se puede crear una capa de tipo shape
+ */
 sTrue("Crear una capa tipo Shape", function() {
 
   // @Setup
-  // Select first artboard
   var artboard = $().createArtboard("test-artboard", 0, 0, 1024, 768);
-  //artboard.setIsSelected(true);
-  var newLayer = $('%artboard%').createShapeLayer("Froi");
+  var newLayer = $(artboard).createShapeLayer("test-artboard");
 
   // @Tests
-  this.class(newLayer, "MSShapeGroup", "La clase de newLayer tiene que ser MSShapeGroup");
+  this.class(newLayer, "MSShapeGroup");
 
   // @End
   $(newLayer).remove();
-  artboard.parentGroup().removeLayer(artboard);
-
-  newLayer = null;
-  artboard = null;
+  $(artboard).remove();
 
 });
 
-// ---------------------------------- Test ---------------------------------- //
+/**
+ * Comprueba que se puede borrar una capa
+ */
 sTrue("Borra una capa", function() {
 
   // @Setup
   var artboard = $().createArtboard("test-artboard", 0, 0, 1024, 768);
-  var newLayer = $('%artboard%').createShapeLayer("Froi");
+  var newLayer = $(artboard).createShapeLayer("test-artboard");
   $(newLayer).remove();
 
   // @Tests
@@ -82,8 +74,8 @@ sTrue("Agrupar capas", function() {
   var newGroup = $selection.group(groupName);
 
   // @Tests
-  this.class(newGroup, "MSLayerGroup", "La clase de newGroup tiene que ser MSLayerGroup");
-  this.equal(newGroup.name(), groupName, "El nombre de la capa debe ser " + groupName);
+  this.class(newGroup, "MSLayerGroup");
+  this.equal(newGroup.name(), groupName);
   this.true($selection.length > 0);
 
   // @End
