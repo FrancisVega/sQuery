@@ -4,7 +4,7 @@
 var gulp   = require('gulp');
 
 var squeryfile = 'sQuery.js';
-var testfile = 'sQueryTests.cocoascript';
+var testfile = 'sQueryTests.js';
 
 // Paths
 var dirs = {
