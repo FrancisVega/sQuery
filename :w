@@ -36,6 +36,9 @@
   var currentArtboard = doc.currentPage().currentArtboard();
 
 (function(){
+
+  log("sQuery Started")
+
   /*
    * Constructor
    */
@@ -84,7 +87,6 @@
     var len;
     var i;
     var keyChar = "%";
-
 
     /**
      * Devuelve el artboard activo o el primero de la lista en su defecto
