@@ -71,12 +71,12 @@ sTrue("Agrupar capas", function() {
   // @Setup
   var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600);
   var layer = $(artboard).createShapeLayer(LAYERNAME);
-
-  CURRENTPAGE.currentArtboard = artboard;
   var $selection = $("%shapes%");
-
   var groupName = GROUPNAME;
   var newGroup = $selection.group(groupName);
+
+
+  log(newGroup)
 
   // @Tests
   this.class(newGroup, "MSLayerGroup");
