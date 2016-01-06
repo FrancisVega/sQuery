@@ -2,7 +2,7 @@
   /*
   The MIT License (MIT)
 
-  Copyright (c) 2015 Francis Vega
+  Copyright (c) 2016 Francis Vega
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to
@@ -31,7 +31,6 @@
 
   var sQuery, $;
   var doc = context.document;
-  var pages = doc.pages();
   var app = NSApplication.sharedApplication();
   var currentArtboard = doc.currentPage().currentArtboard();
 
@@ -40,14 +39,16 @@
    * Constructor
    */
 
-  sQuery = $ = function(selector) {
-    return new SQUERY(selector);
+  sQuery = $ = function(selector, page, artboard) {
+    return new SQUERY(selector, page, artboard);
   };
 
   /**
    * Recorre todos los desdencientes desde el elemento dado.
-   * @param {object} sel Document, Artboard o Grupo desde el que rellenar el array con las capas.
-   * @return {array} allLayers Array global donde se almacenan los grupos y capas seleccionados
+   * @param {object} sel Document, Artboard o Grupo desde el que rellenar el
+   * array con las capas.
+   * @return {array} allLayers Array global donde se almacenan los grupos y
+   * capas seleccionados.
    */
 
   allLayers = [];
@@ -64,13 +65,35 @@
     }
   }
 
+  arrayAllLayers = [];
+  function fillArrayJustLayers(sel) {
+    var layers = sel.layers();
+    for (var i=0, len=layers.length(); i < len; i++) {
+      var layer = layers.objectAtIndex(i);
+      if ([layer class] == MSLayerGroup) {
+        //fillArrayJustLayers(layer);
+        arrayAllLayers.push(layer);
+      } else {
+        arrayAllLayers.push(layer);
+      }
+    }
+  }
+
+  /**
+   * Muestra un mensaje en sketchapp
+   * @param {string} message Mensaje a mostrar
+   */
+  var showMessage = function (message) {
+    doc.showMessage(message);
+  }
+
   /**
    * Función principal
    * @param {string|object} selector El selector
    * @return {sQuery}
    */
 
-  var SQUERY = function(selector) {
+  var SQUERY = function(selector, page, artboard) {
 
     // this
     this.autor = "Francis Vega";
@@ -100,16 +123,8 @@
     }
 
     /**
-     * Muestra un mensaje en sketchapp
-     * @param {string} message Mensaje a mostrar
-     */
-
-    function showMessage(message) {
-      doc.showMessage(message);
-    }
-
-    /**
-     * Filtra el array de capas para dejar solo aquellas que coincidan en el tipo (klass)
+     * Filtra el array de capas para dejar solo aquellas que coincidan en el
+     * tipo (klass).
      * @param {object|string} klass Determina el tipo de capa a filtrar
      * @return {[MSLayerClass]}
      * @example
@@ -120,12 +135,13 @@
 
     function filterLayersBy(what) {
       var _layers = [];
+      allLayers = [];
       fillArray(doc.currentPage().currentArtboard());
-      //allLayers.reverse();
 
+      // Query de tipo objeto
       if (typeof(what) == "object") {
         var layer;
-        _layers = [];
+        var _layers = [];
         for(var i=0, len=allLayers.length; i<len; i++) {
           layer = allLayers[i];
           if(sQuery().is(layer, what)) {
@@ -135,13 +151,20 @@
         return _layers;
       }
 
+      // Query de tipo string
       if (typeof(what) == "string") {
 
         switch(what) {
-
+          // Todos
           case "*":
             return allLayers;
 
+          case "%hierarchy%":
+            arrayAllLayers = [];
+            fillArrayJustLayers(doc.currentPage().currentArtboard());
+            return arrayAllLayers;
+
+          // Elementos seleccionados
           case "%selected%":
             var _mslayers = context.selection;
             _layers = [];
@@ -150,6 +173,7 @@
             }
             return _layers;
 
+          // Nombre de capa
           default:
             var layer;
             _layers = [];
@@ -165,14 +189,12 @@
               throw new Error('(sQuery Warning) ' + selector + ' not found');
             }
             return _layers;
-
         }
       }
     }
 
     /**
-     *
-     *
+     * Tipo de query
      */
     if (typeof selector === "string") {
 
@@ -180,6 +202,10 @@
 
         case "*":
           _layers = filterLayersBy("*");
+          break;
+
+        case "%hierarchy%":
+          _layers = filterLayersBy("%hierarchy%");
           break;
 
         case "%artboards%":
@@ -226,6 +252,7 @@
 
     this.layers = _layers.slice();
     this.length = _layers.length;
+    this.query = selector;
 
     // Return self object
     return this;
@@ -236,12 +263,6 @@
 
   sQuery.fn = SQUERY.prototype = {
 
-    /**
-     * test
-     */
-    test: function(){
-      log("star testing...");
-    },
     /**
      * ...
      * @param {object} layer Un objeto MSLayer con la capa
@@ -307,6 +328,9 @@
      */
 
     isShape: function(layer){
+      if (layer == undefined) {
+        layer = this.layers[0];
+      }
       return SQUERY.prototype.is(layer, MSShapeGroup);
     },
 
@@ -321,8 +345,10 @@
     },
 
     /**
-     * Itera por cada uno de los elementos previamente seleccionados y devuelve el elemento
-     * @param {function} callback Una función a la que each llama por cada iteración
+     * Itera por cada uno de los elementos previamente seleccionados y devuelve
+     * el elemento.
+     * @param {function} callback Una función a la que each llama por cada
+     * iteración.
      * @return {sQuery}
      */
     each: function(callback) {
@@ -335,7 +361,8 @@
 
     /**
      * Itera por cada uno de los elementos filtrando los que devuelvan true
-     * @param {function} callback Una función a la que filter llama por cada iteración
+     * @param {function} callback Una función a la que filter llama por cada
+     * iteración.
      * @return {sQuery}
      */
 
@@ -691,7 +718,8 @@
 
     remove: function() {
       for (var i=0, len=this.layers.length; i<len; i++) {
-        this.layers[i].parentGroup().removeLayer(this.layers[i]);
+       this.layers[i].parentGroup().removeLayer(this.layers[i]);
+       this.layers[i] = null;
       }
       return this;
     },
@@ -707,6 +735,14 @@
 
     /**
      * ...
+     * @return {mixed} The query used
+     */
+    queryUsed: function() {
+      return this.query;
+    },
+
+    /**
+     * ...
      * @param {number} val Valor de opacidad de 0 a 100
      * @return {sQuery}
      */
@@ -715,7 +751,7 @@
       var layer = this.layers[0];
       val = val / 100;
       if (val != undefined) {
-      for (var i=0, len=this.layers.length; i<len; i++) {
+        for (var i=0, len=this.layers.length; i<len; i++) {
           this.layers[i].style().contextSettings().setOpacity(val);
         }
       } else {
@@ -725,22 +761,22 @@
     },
 
     /**
-     * ...
+     * Obtiene el valor absolute de las coordenads de la capa o grupo
      * {param} coord Coordenada x o y
      * {param} val
      */
     getCoord: function(coord, val) {
       var layer = this.layers[0];
-      var artboardRect = context.document.currentPage().currentArtboard().absoluteRect();
+      var AB_rect = doc.currentPage().currentArtboard().absoluteRect();
       if (val != undefined) {
         // Set
       for (var i=0, len=this.layers.length; i<len; i++) {
           if(this.layers[i].parentGroup().class() == MSLayerGroup) {
             var parentGroupRect = this.layers[i].parentGroup().absoluteRect();
             if(coord == "x") {
-              this.layers[i].frame().setX(val + artboardRect.x() - parentGroupRect.x());
+              this.layers[i].frame().setX(val+AB_rect.x()-parentGroupRect.x());
             } else if(coord == "y") {
-              this.layers[i].frame().setY(val + artboardRect.y() - parentGroupRect.y());
+              this.layers[i].frame().setY(val+AB_rect.y()-parentGroupRect.y());
             }
           } else {
             if(coord == "x") {
@@ -754,9 +790,9 @@
       } else {
         // Get
         if(coord == "x") {
-          return layer.absoluteRect().x() - artboardRect.x();
+          return layer.absoluteRect().x() - AB_rect.x();
         } else if(coord == "y") {
-          return layer.absoluteRect().y() - artboardRect.y();
+          return layer.absoluteRect().y() - AB_rect.y();
         }
       }
       return this;
@@ -773,15 +809,103 @@
     },
 
     /**
-     * ...
+     *
      * @param {number} val Valor de coordenada x
      * @return {sQuery}
      */
 
     y: function(val) {
       return this.getCoord("y", val)
-    }
+    },
 
-  };
+
+    /**
+     * Agrupa la selección de elementos.
+     * @param {string} name Nombre del grupo.
+     * @return {MSLayer}
+     */
+
+    group: function(name) {
+
+      name = name || "NewGroup";
+
+      // No se puede utilizar con el selector * porque este selecciona a la vez
+      // grupos y capas hijas del mismo y Sketch 'peta'
+      if(this.queryUsed() == "*") {
+        showMessage('(sQuery Warning) Use %hierarchy% instead of \"*\"');
+        throw new Error('(sQuery Warning) Use %hierarchy% instead of \"*\"');
+      }
+
+      // Creamos el grupo en el parent de la última capa
+      var parent = this.MSLayer().parentGroup();
+      // Creamos el grupo en sketch
+      var newGroup = parent.addLayerOfType("group");
+      // Lo renombramos
+      newGroup.name = name;
+
+      var layer;
+      for (var i=0, len=this.layers.length; i<len; i++) {
+        layer =  this.layers[i];
+        // Guardamos el padre actual para quitar la capa posteriormente
+        currentLayerParentGroup = this.layers[i].parentGroup();
+        // Añadimos la capa al grupo
+        newGroup.addLayers([layer]);
+        // Borramos la capa desde su parent anterior
+        currentLayerParentGroup.removeLayer(layer);
+      }
+
+      // Resize group
+      newGroup.resizeRoot(0);
+
+      // Select new group
+      //newGroup.setIsSelected(true);
+
+      return newGroup;
+
+    },
+
+    /**
+     * Crea un artboard
+     * @param {string} name Nombre del grupo.
+     * @return {MSLayer}
+     */
+
+    createArtboard: function(name, x, y, width, height) {
+
+      var artboard = MSArtboardGroup.new();
+      var frame = artboard.frame();
+      frame.setX(x);
+      frame.setY((y));
+      frame.setWidth(width);
+      frame.setHeight(height);
+      artboard.name = name;
+
+      this.MSLayer().addLayers([artboard]);
+      this.MSLayer().deselectAllLayers();
+      this.MSLayer().currentArtboard = artboard;
+
+      artboard.setIsSelected(true);
+      return artboard;
+
+    },
+
+    /**
+     * Crea una capa Tipo Shape. Por ahora para usar en los tests.
+     * @param {string} name Nombre del grupo.
+     * @return {MSLayer}
+     */
+
+    createShapeLayer: function(name) {
+
+      var parentGroup = this.MSLayer();
+      var newLayer = parentGroup.addLayerOfType("rectangle");
+      newLayer.name = name;
+      //newLayer.setIsSelected(true);
+
+      return newLayer;
+
+    },
+
+  }
 }
 )();

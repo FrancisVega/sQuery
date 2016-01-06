@@ -1,3 +1,0 @@
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/sQuery.js';
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/move.js';
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/areGroups.js';
