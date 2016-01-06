@@ -2,7 +2,7 @@
   /*
   The MIT License (MIT)
 
-  Copyright (c) 2015 Francis Vega
+  Copyright (c) 2016 Francis Vega
 
   Permission is hereby granted, free of charge, to any person obtaining a copy
   of this software and associated documentation files (the "Software"), to
@@ -31,7 +31,6 @@
 
   var sQuery, $;
   var doc = context.document;
-  var pages = doc.pages();
   var app = NSApplication.sharedApplication();
 
 (function(){
@@ -123,7 +122,7 @@
     function filterLayersBy(what) {
       var _layers = [];
       allLayers = [];
-      fillArray(context.document.currentPage().currentArtboard());
+      fillArray(doc.currentPage().currentArtboard());
 
       // Query de tipo objeto
       if (typeof(what) == "object") {
@@ -754,7 +753,7 @@
      */
     getCoord: function(coord, val) {
       var layer = this.layers[0];
-      var AB_rect = context.document.currentPage().currentArtboard().absoluteRect();
+      var AB_rect = doc.currentPage().currentArtboard().absoluteRect();
       if (val != undefined) {
         // Set
       for (var i=0, len=this.layers.length; i<len; i++) {
@@ -866,9 +865,11 @@
       frame.setWidth(width);
       frame.setHeight(height);
       artboard.name = name;
-      context.document.currentPage().addLayers([artboard]);
-      context.document.currentPage().deselectAllLayers();
-      context.document.currentPage().currentArtboard = artboard;
+
+      this.MSLayer().addLayers([artboard]);
+      this.MSLayer().deselectAllLayers();
+      this.MSLayer().currentArtboard = artboard;
+
       artboard.setIsSelected(true);
       return artboard;
 
