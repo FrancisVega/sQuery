@@ -6,17 +6,23 @@
 // sTrue
 @import 'zen.sketchplugin/contents/sketch/sTrue/sTrue.js';
 
+// Generals
+var CURRENTPAGE = context.document.currentPage();
+var ARTBOARDNAME = 'testing-artboard';
+var LAYERNAME = 'testing-layer';
+var GROUPNAME = 'testing-group';
+
 /**
  * Comprueba que se puede crear un artboard
  */
 sTrue("Artboard", function() {
 
   // @Setup
-  var artboard = $().createArtboard("test-artboard", 0, 0, 800, 600);
+  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600);
 
   // @Tests
-  this.class( artboard, "MSArtboardGroup");
-  this.equal( artboard.name(), "test-artboard");
+  this.class(artboard, "MSArtboardGroup");
+  this.equal(artboard.name(), ARTBOARDNAME);
 
   // @End
   $(artboard).remove();
@@ -29,8 +35,8 @@ sTrue("Artboard", function() {
 sTrue("Crear una capa tipo Shape", function() {
 
   // @Setup
-  var artboard = $().createArtboard("test-artboard", 0, 0, 1024, 768);
-  var newLayer = $(artboard).createShapeLayer("test-artboard");
+  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600);
+  var newLayer = $(artboard).createShapeLayer(ARTBOARDNAME);
 
   // @Tests
   this.class(newLayer, "MSShapeGroup");
@@ -47,8 +53,8 @@ sTrue("Crear una capa tipo Shape", function() {
 sTrue("Borra una capa", function() {
 
   // @Setup
-  var artboard = $().createArtboard("test-artboard", 0, 0, 1024, 768);
-  var newLayer = $(artboard).createShapeLayer("test-artboard");
+  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600);
+  var newLayer = $(artboard).createShapeLayer(ARTBOARDNAME);
   $(newLayer).remove();
 
   // @Tests
@@ -63,14 +69,13 @@ sTrue("Borra una capa", function() {
 sTrue("Agrupar capas", function() {
 
   // @Setup
-  var artboard = $().createArtboard("test-artboard", 0, 0, 1024, 768);
-  var newLayer01 = $(artboard).createShapeLayer("Layer01");
-  var newLayer02 = $(artboard).createShapeLayer("Layer02");
-  //artboard.setIsSelected(true);
-  context.document.currentPage().currentArtboard = artboard;
+  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600);
+  var layer = $(artboard).createShapeLayer(LAYERNAME);
+
+  CURRENTPAGE.currentArtboard = artboard;
   var $selection = $("%shapes%");
 
-  var groupName = "Froiland";
+  var groupName = GROUPNAME;
   var newGroup = $selection.group(groupName);
 
   // @Tests
