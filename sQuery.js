@@ -208,6 +208,11 @@
           _layers = filterLayersBy("%hierarchy%");
           break;
 
+        case "%page%":
+          _layers = [];
+          _layers = [doc.currentPage()];
+          break;
+
         case "%artboards%":
           _layers = [];
           _layers = [doc.currentPage().currentArtboard()];
@@ -750,6 +755,7 @@
     opacity: function(val) {
       var layer = this.layers[0];
       val = val / 100;
+
       if (val != undefined) {
         for (var i=0, len=this.layers.length; i<len; i++) {
           this.layers[i].style().contextSettings().setOpacity(val);
@@ -757,6 +763,7 @@
       } else {
         return layer.style().contextSettings().opacity() * 100;
       }
+
       return this;
     },
 
