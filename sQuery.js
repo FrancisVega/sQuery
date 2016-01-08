@@ -35,6 +35,7 @@
   var currentArtboard = doc.currentPage().currentArtboard();
 
 (function(){
+
   /*
    * Constructor
    */
@@ -183,7 +184,6 @@
                 _layers.push(layer);
               }
             }
-
             if (_layers.length === 0) {
               showMessage('(sQuery Warning) ' + selector + ' not found');
               throw new Error('(sQuery Warning) ' + selector + ' not found');
@@ -494,8 +494,8 @@
       // Primero deseleccionamos todo
       doc.currentPage().deselectAllLayers();
       for(var i=0, len=this.layers.length; i<len; ++i) {
-          this.layers[i].select_byExpandingSelection(true, true);
-        }
+        this.layers[i].select_byExpandingSelection(true, true);
+      }
       return this;
     },
 
@@ -723,8 +723,8 @@
 
     remove: function() {
       for (var i=0, len=this.layers.length; i<len; i++) {
-       this.layers[i].parentGroup().removeLayer(this.layers[i]);
-       this.layers[i] = null;
+        this.layers[i].parentGroup().removeLayer(this.layers[i]);
+        this.layers[i] = null;
       }
       return this;
     },
@@ -777,7 +777,7 @@
       var AB_rect = doc.currentPage().currentArtboard().absoluteRect();
       if (val != undefined) {
         // Set
-      for (var i=0, len=this.layers.length; i<len; i++) {
+        for (var i=0, len=this.layers.length; i<len; i++) {
           if(this.layers[i].parentGroup().class() == MSLayerGroup) {
             var parentGroupRect = this.layers[i].parentGroup().absoluteRect();
             if(coord == "x") {
@@ -912,7 +912,6 @@
       return newLayer;
 
     },
-
   }
 }
 )();
