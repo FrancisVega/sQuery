@@ -23,8 +23,8 @@ sTrue("Artboard", function() {
   var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600);
 
   // @Tests
-  this.class(artboard, "MSArtboardGroup");
-  this.equal(artboard.name(), ARTBOARDNAME);
+  this.isClass(artboard, "MSArtboardGroup");
+  this.isEqual(artboard.name(), ARTBOARDNAME);
 
   // @End
   $(artboard).remove();
@@ -41,7 +41,7 @@ sTrue("Crear una capa tipo Shape", function() {
   var newLayer = $(artboard).createShapeLayer(ARTBOARDNAME);
 
   // @Tests
-  this.class(newLayer, "MSShapeGroup");
+  this.isClass(newLayer, "MSShapeGroup");
 
   // @End
   $(newLayer).remove();
@@ -60,7 +60,7 @@ sTrue("Borra una capa", function() {
   $(newLayer).remove();
 
   // @Tests
-  this.class(newLayer, "MSShapeGroup");
+  this.isClass(newLayer, "MSShapeGroup");
 
   // @End
   $(artboard).remove();
@@ -78,9 +78,9 @@ sTrue("Agrupar capas", function() {
   var newGroup = $("%shapes%").group(GROUPNAME);
 
   // @Tests
-  this.class(newGroup, "MSLayerGroup");
-  this.equal(newGroup.name(), GROUPNAME);
-  this.equal(newGroup.layers().array().length(), 1);
+  this.isClass(newGroup, "MSLayerGroup");
+  this.isEqual(newGroup.name(), GROUPNAME);
+  this.isEqual(newGroup.layers().array().length(), 1);
 
   // @End
   $(layer).remove();
