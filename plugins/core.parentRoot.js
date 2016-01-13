@@ -12,6 +12,7 @@
 
   $.fn.parentRoot = function() {
 
+    // Get the layer's artboard
     function getArtboardFromLayer(layer) {
       var parent = layer.parentGroup();
       if(parent.class() == 'MSArtboardGroup') {
@@ -22,6 +23,7 @@
       return artboard;
     }
 
+    // Put a layer in Artboard root
     function parentToRoot(layer) {
       if (layer.parentGroup().class() != 'MSArtboardGroup') {
         // Get the artboard
@@ -40,6 +42,7 @@
       }
     }
 
+    // For each query
     this.each(function() {
       parentToRoot(this);
     });
