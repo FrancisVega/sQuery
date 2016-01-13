@@ -10,7 +10,7 @@
 
 (function($) {
 
-  $.fn.rootParent = function() {
+  $.fn.parentRoot = function() {
 
     function getArtboardFromLayer(layer) {
       var parent = layer.parentGroup();
