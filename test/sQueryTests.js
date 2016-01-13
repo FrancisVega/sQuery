@@ -1,12 +1,12 @@
+// sTrue
+@import 'sTrue.js';
 
 // sQuery
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/sQuery.js';
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.move.js';
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areFroups.js';
-@import 'zen.sketchplugin/Contents/Sketch/sQuery/plugins/core.areShapes.js';
-
-// sTrue
-@import 'zen.sketchplugin/contents/sketch/sTrue/sTrue.js';
+@import '/repos/sQuery/sQuery.js';
+@import '/repos/sQuery/plugins/core.move.js';
+@import '/repos/sQuery/plugins/core.areFroups.js';
+@import '/repos/sQuery/plugins/core.areShapes.js';
+@import '/repos/sQuery/plugins/core.parentRoot.js';
 
 // Generals
 var CURRENTPAGE = context.document.currentPage();
