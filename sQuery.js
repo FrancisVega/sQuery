@@ -109,6 +109,18 @@
     var i;
     var keyChar = "%";
 
+    /**
+     * Pasa un MSArray a un JSArray
+     * @param {MSArray} _MSArray El MSArray
+     * @return {JSarray} jsArray El array en js
+     */
+    function toArray(_MSArray) {
+      var jsArray = [];
+      for(var i=0, len=_MSArray.count(); i<len; i++) {
+        jsArray.push(_MSArray[i]);
+      }
+      return jsArray;
+    }
 
     /**
      * Devuelve el artboard activo o el primero de la lista en su defecto
@@ -215,7 +227,8 @@
 
         case "%artboards%":
           _layers = [];
-          _layers = [doc.currentPage().currentArtboard()];
+          _layers = doc.currentPage().artboards();
+          log(doc.currentPage().artboards());
           break;
 
         case "%artboard%":
