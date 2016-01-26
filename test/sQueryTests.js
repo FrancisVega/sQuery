@@ -1,12 +1,4 @@
-// sTrue
-@import 'sTrue.js';
-
-// sQuery
-@import '/repos/sQuery/sQuery.js';
-@import '/repos/sQuery/plugins/core.move.js';
-@import '/repos/sQuery/plugins/core.areFroups.js';
-@import '/repos/sQuery/plugins/core.areShapes.js';
-@import '/repos/sQuery/plugins/core.parentRoot.js';
+log("testing start");
 
 // Generals
 var CURRENTPAGE = context.document.currentPage();
