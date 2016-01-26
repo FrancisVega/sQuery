@@ -877,14 +877,6 @@
         currentLayerParentGroup.removeLayer(layer);
       }
 
-      // @API-CHANGE Parece que ha cambiado en la 3.5
-      // Resize group
-      // newGroup.resizeRoot(0);
-      // @API-CHANGE Parece que ha cambiado en la 3.5
-
-      // Select new group
-      //newGroup.setIsSelected(true);
-
       return newGroup;
 
     },
