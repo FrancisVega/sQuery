@@ -227,8 +227,11 @@
 
         case "%artboards%":
           _layers = [];
-          _layers = doc.currentPage().artboards();
-          log(doc.currentPage().artboards());
+          var _layersB = doc.currentPage().artboards();
+          for(var i=0, len=_layersB.length(); i<len; i++) {
+            _layers.push(_layersB[i]);
+          }
+          //log(doc.currentPage().artboards());
           break;
 
         case "%artboard%":
