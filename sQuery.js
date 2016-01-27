@@ -227,11 +227,7 @@
 
         case "%artboards%":
           _layers = [];
-          var _layersB = doc.currentPage().artboards();
-          for(var i=0, len=_layersB.length(); i<len; i++) {
-            _layers.push(_layersB[i]);
-          }
-          //log(doc.currentPage().artboards());
+          _layers = toArray(doc.currentPage().artboards());
           break;
 
         case "%artboard%":
@@ -770,9 +766,9 @@
 
     opacity: function(val) {
       var layer = this.layers[0];
-      val = val / 100;
 
       if (val != undefined) {
+        val = val / 100;
         for (var i=0, len=this.layers.length; i<len; i++) {
           this.layers[i].style().contextSettings().setOpacity(val);
         }
