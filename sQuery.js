@@ -46,8 +46,7 @@
 
   /**
    * Recorre todos los desdencientes desde el elemento dado.
-   * @param {object} sel Document, Artboard o Grupo desde el que rellenar el
-   * array con las capas.
+   * @param {object} sel Document, Artboard o Grupo padre.
    * @return {array} allLayers Array global donde se almacenan los grupos y
    * capas seleccionados.
    */
