@@ -10,7 +10,7 @@
 
 (function($){
 
-  $.fn.areShapes = function() {
+  $.fn.removeEmptyGroupsRecursive = function() {
     var removeEmpty;
     var hasChilds = 1;
     while(hasChilds) {
