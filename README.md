@@ -1,6 +1,21 @@
 # sQuery
 A growing small library of chain methods "in a jQuery way" for Sketch to make the selection and filter task a little easiest :)
 
+# Install
+Copy sQuery.js and plugins folder (they are optional) inside your sketch plugin bundle. Then just import them into your scripts.
+````javascript
+/* Import :) */
+// Import sQuery
+@import 'sQuery.js';
+// Import sQuery plugins (if you're going to use them)
+@import 'plugins/core.areGroups.js';
+@import 'plugins/core.areShapes.js';
+@import 'plugins/core.move.js';
+@import 'plugins/core.parentRoot.js';
+@import 'plugins/core.removeEmptyGroupsRecursive.js';
+
+// Your code here
+```
 
 # Some (silly) examples
 ````javascript
