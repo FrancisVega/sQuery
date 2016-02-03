@@ -4,7 +4,6 @@ A growing small library of chain methods "in a jQuery way" for Sketch to make th
 # Install
 Copy sQuery.js and plugins folder (they are optional) inside your sketch plugin bundle. Then just import them into your scripts.
 ````javascript
-/* Import :) */
 // Import sQuery
 @import 'sQuery.js';
 // Import sQuery plugins (if you're going to use them)
@@ -18,11 +17,6 @@ Copy sQuery.js and plugins folder (they are optional) inside your sketch plugin 
 ```
 
 # Some (silly) examples
-````javascript
-/* Import :) */
-@import 'sQuery.js';
-```
-
 ````javascript
 /* Hide all layers and groups */
 $("*").hide()
