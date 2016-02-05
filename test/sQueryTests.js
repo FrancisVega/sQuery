@@ -25,10 +25,8 @@ sTrue("Duplicar capas y grupos", function() {
   this.isEqual(duplicateGroup.MSLayer().name(), DUPLICATEGROUPNAME);
 
   // @End
-  /*
-   *$(layer).remove();
-   *$(artboard).remove();
-   */
+  $(layer).remove();
+  $(artboard).remove();
 
 });
 /**
