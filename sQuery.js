@@ -717,12 +717,23 @@
     },
 
     /**
-     * ...
+     * Duplicte layer or group
      * @param {name} name El nombre de la nueva capa
      * @return {sQuery}
      */
 
     duplicate: function(name) {
+      var duplicateMSLayer;
+      var duplicateItems = [];
+      for (var i=0, len=this.layers.length; i<len; i++) {
+        duplicateMSLayer = this.layers[i].duplicate();
+        if(name) {
+          duplicateMSLayer.name = name;
+        }
+        duplicateItems.push(duplicateMSLayer);
+      }
+
+      this.layers = duplicateItems.slice();
       return this;
     },
 
