@@ -2,10 +2,13 @@
  * sQuery plugin - removeEmptyGroupsRecursive 1.0
  * Francis Vega
  *
- * @desc Remove all empty groups in a recursive way
+ * TODO:
+ * Ahora mismo es muy limitado y borra todos los grupos, sin tener en cuenta
+ * ninguna selección previa.
+ * @desc Remove all empty groups from the current artboard
  * @return {sQuery}
  * @example
- * $('%selected%').removeEmptyGroupsRecursive();
+ * $().removeEmptyGroupsRecursive();
  */
 
 (function($){
