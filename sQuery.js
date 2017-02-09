@@ -1,23 +1,19 @@
-let sQuery, $;
 const doc = context.document;
 const page = doc.currentPage();
 const currentArtboard = page.currentArtboard();
-const app = NSApplication.sharedApplication();
 
 (function(){
 
-  sQuery = $ = function(selector, page, artboard) {
-    return new SQUERY(selector, page, artboard);
-  };
+  const sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard);
 
   const findObjectsByName = (name, scope) => {
-    var predicate = NSPredicate.predicateWithFormat("name == %@",name);
+    let predicate = NSPredicate.predicateWithFormat("name == %@",name);
     return scope.filteredArrayUsingPredicate(predicate);
   };
 
   /* ------------------------------------------------------------------------------------------- */
 
-  var SQUERY = function(selector, page, artboard) {
+  const SQUERY = function(selector, page, artboard) {
 
     if (typeof selector == "string") {
       switch(selector) {
@@ -68,6 +64,11 @@ const app = NSApplication.sharedApplication();
           break;
       }
     }
+
+    if (typeof selector === "object") {
+      this.layers = [selector];
+    }
+
     return this;
   };
 
@@ -414,13 +415,42 @@ const app = NSApplication.sharedApplication();
      * @return {...}
      */
     UISelect: function() {
-      // Primero deseleccionamos todo
       doc.currentPage().deselectAllLayers();
       this.layers.slice().map(layer => layer.select_byExpandingSelection(true, true))
+      return this;
+    },
+
+    /**
+     * Itera por cada uno de los elementos previamente seleccionados y devuelve el elemento.
+     * @param {function} callback Una función a la que each llama por cada
+     * iteración.
+     * @return {sQuery}
+     */
+    each: function(callback) {
+      for(let i=0, len=this.layers.length; i<len; ++i) {
+        callback.call(this.layers[i], i);
+      }
+      return this;
+    },
+
+    /**
+     * Itera por cada uno de los elementos filtrando los que devuelvan true
+     * @param {function} callback Una función a la que filter llama por cada iteración.
+     * @return {sQuery}
+     */
+
+    filter: function(callback) {
+      let r = [];
+      let k;
+      for(let i=0, len=this.layers.length; i<len; ++i) {
+        k = callback.call(this.layers[i], i);
+        if(k) {
+          r.push(this.layers[i]);
+        }
+      }
+      this.layers = r.slice();
       return this;
     },
   }
 }
 )();
-
-$("%hierarchy%").rename("LOL")
