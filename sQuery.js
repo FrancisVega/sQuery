@@ -1,6 +1,31 @@
-const doc = context.document;
-const page = doc.currentPage();
-const currentArtboard = page.currentArtboard();
+/*
+  The MIT License (MIT)
+  Copyright (c) 2017 Francis Vega
+  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+  associated documentation files (the "Software"), to deal in the Software without restriction,
+  including without limitation the rights to use, copy, modify, merge, publish, distribute,
+  sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this
+  permission notice shall be included in all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+  NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+  DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  */
+
+ /*
+  *
+  *  sQuery 2.0
+  *
+  */
+
+  const doc = context.document;
+  const page = doc.currentPage();
+  const currentArtboard = page.currentArtboard();
 
 (function(){
 
@@ -77,20 +102,16 @@ const currentArtboard = page.currentArtboard();
   sQuery.fn = SQUERY.prototype = {
 
     /**
-     * ...
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * Return an array with the queried layers
+     * @return {array}
      */
     sLayers: function() {
       return this.layers;
     },
 
     /**
-     * texts
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * Query text layers
+     * @return {sQuery}
      */
     texts: function() {
       this.layers = this.layers.slice().filter(layer => layer.class() == MSTextLayer);
@@ -98,10 +119,8 @@ const currentArtboard = page.currentArtboard();
     },
 
     /**
-     * groups
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * Query groups
+     * @return {sQuery}
      */
     groups: function() {
       this.layers = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
@@ -109,10 +128,8 @@ const currentArtboard = page.currentArtboard();
     },
 
     /**
-     * pages
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * Query pages
+     * @return {sQuery}
      */
     pages: function() {
       this.layers = this.layers.slice().filter(layer => layer.class() == MSPage);
@@ -120,10 +137,8 @@ const currentArtboard = page.currentArtboard();
     },
 
     /**
-     * artboards
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * Query artboards
+     * @return {sQuery}
      */
     artboards: function() {
       this.layers = this.layers.slice().filter(layer => layer.class() == MSArtboardGroup);
@@ -131,10 +146,8 @@ const currentArtboard = page.currentArtboard();
     },
 
     /**
-     * shapes
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * Query shape layers
+     * @return {sQuery}
      */
     shapes: function() {
       this.layers = this.layers.slice().filter(layer => layer.class() == MSShapeGroup);
