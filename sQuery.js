@@ -32,14 +32,18 @@
   const sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard);
 
   const findObjectsByName = (name, scope) => {
-    let predicate = NSPredicate.predicateWithFormat("name == %@",name);
+    const predicate = NSPredicate.predicateWithFormat("name == %@",name);
     return scope.filteredArrayUsingPredicate(predicate);
   };
 
-  /* ------------------------------------------------------------------------------------------- */
+  const findObjectsOfType = (classType, scope) => {
+    const predicate = NSPredicate.predicateWithFormat("self isKindOfClass: %@", classType);
+    return scope.filteredArrayUsingPredicate(predicate);
+  };
 
   const SQUERY = function(selector, page, artboard) {
 
+    const allLayers = context.document.currentPage().currentArtboard().children();
     if (typeof selector == "string") {
       switch(selector) {
         // All
@@ -60,7 +64,7 @@
           break;
 
         case "%images%":
-          this.layers = currentArtboard.children().slice().filter(layer => layer.class() == "MSBitmapLayer");
+          this.layers = findObjectsOfType(MSBitmapLayer, currentArtboard.children());
           break;
 
         case "%layers%":
@@ -68,15 +72,15 @@
           break;
 
         case "%shapes%":
-          this.layers = currentArtboard.children().slice().filter(layer => layer.class() == "MSShapeGroup");
+          this.layers = findObjectsOfType(MSShapeGroup, currentArtboard.children());
           break;
 
         case "%groups%":
-          this.layers = currentArtboard.children().slice().filter(layer => layer.class() == "MSLayerGroup");
+          this.layers = findObjectsOfType(MSLayerGroup, currentArtboard.children());
           break;
 
         case "%textLayers%":
-          this.layers = currentArtboard.children().slice().filter(layer => layer.class() == "MSTextLayer");
+          this.layers = findObjectsOfType(MSTextLayer, currentArtboard.children());
           break;
 
         case "%selected%":
@@ -464,6 +468,32 @@
       this.layers = r.slice();
       return this;
     },
+
+    createArtboard: function(name, x, y, width, height) {
+
+      // Get first layer. Should be a page
+      try {
+        const artboard = MSArtboardGroup.new();
+        const frame = artboard.frame();
+        frame.setX(x);
+        frame.setY((y));
+        frame.setWidth(width);
+        frame.setHeight(height);
+        artboard.name = name;
+
+        this.layers[0].addLayers([artboard]);
+        this.layers[0].deselectAllLayers();
+        this.layers[0].currentArtboard = artboard;
+
+        artboard.setIsSelected(true);
+        return artboard;
+      } catch(e) {
+        log(e);
+      }
+    },
+
+
+
   }
 }
 )();
