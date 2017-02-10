@@ -25,7 +25,6 @@
 
   const doc = context.document;
   const page = doc.currentPage();
-  const currentArtboard = page.currentArtboard();
 
 (function(){
 
@@ -43,16 +42,15 @@
 
   const SQUERY = function(selector, page, artboard) {
 
-    const allLayers = context.document.currentPage().currentArtboard().children();
     if (typeof selector == "string") {
       switch(selector) {
         // All
         case "*":
-          this.layers = currentArtboard.children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape");
+          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape");
           break;
 
         case "%hierarchy%":
-          this.layers = currentArtboard.layers();
+          this.layers = context.document.currentPage().currentArtboard().layers();
           break;
 
         case "%pages%":
@@ -64,23 +62,23 @@
           break;
 
         case "%images%":
-          this.layers = findObjectsOfType(MSBitmapLayer, currentArtboard.children());
+          this.layers = findObjectsOfType(MSBitmapLayer, context.document.currentPage().currentArtboard().children());
           break;
 
         case "%layers%":
-          this.layers = currentArtboard.children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape" && layer.class() != "MSLayerGroup");
+          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape" && layer.class() != "MSLayerGroup");
           break;
 
         case "%shapes%":
-          this.layers = findObjectsOfType(MSShapeGroup, currentArtboard.children());
+          this.layers = findObjectsOfType(MSShapeGroup, context.document.currentPage().currentArtboard().children());
           break;
 
         case "%groups%":
-          this.layers = findObjectsOfType(MSLayerGroup, currentArtboard.children());
+          this.layers = findObjectsOfType(MSLayerGroup, context.document.currentPage().currentArtboard().children());
           break;
 
         case "%textLayers%":
-          this.layers = findObjectsOfType(MSTextLayer, currentArtboard.children());
+          this.layers = findObjectsOfType(MSTextLayer, context.document.currentPage().currentArtboard().children());
           break;
 
         case "%selected%":
@@ -89,12 +87,12 @@
 
           // Default: Layer name.
         default:
-          this.layers = findObjectsByName(selector, currentArtboard.children());
+          this.layers = findObjectsByName(selector, context.document.currentPage().currentArtboard().children());
           break;
       }
     }
 
-    if (typeof selector === "object") {
+    if (typeof selector == "object") {
       this.layers = [selector];
     }
 
@@ -360,8 +358,9 @@
      * @return {...}
      */
     duplicate: function(name) {
-      const duplicateLayers = this.layers.slice().map(layer => layer.duplicate())
-      duplicateLayers.map(layer => layer.name = name)
+      const duplicateLayers = this.layers.slice().map(layer => layer.duplicate());
+      duplicateLayers.map(layer => layer.name = name);
+      this.layers = duplicateLayers
       return this;
     },
 
@@ -469,9 +468,24 @@
       return this;
     },
 
-    createArtboard: function(name, x, y, width, height) {
+    group: function(name) {
+      const layers = MSLayerArray.arrayWithLayers(this.layers);
+      const group = MSLayerGroup.groupFromLayers(layers);
+      group.setName(name);
+      return group;
+    },
 
-      // Get first layer. Should be a page
+    createShapeLayer: function(name, x, y, width, height) {
+      const parentGroup = this.layers[0];
+      const rectShape = MSRectangleShape.alloc().init();
+      rectShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,width,height));
+      const shapeGroup = MSShapeGroup.shapeWithPath(rectShape);
+      shapeGroup.name = name;
+      this.layers[0].addLayers([shapeGroup]);
+      return shapeGroup;
+    },
+
+    createArtboard: function(name, x, y, width, height) {
       try {
         const artboard = MSArtboardGroup.new();
         const frame = artboard.frame();
