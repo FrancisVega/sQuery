@@ -160,9 +160,7 @@
 
     /**
      * images
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     images: function() {
       this.layers = this.layers.slice().filter(layer => layer.class() == MSBitmapLayer);
@@ -171,9 +169,8 @@
 
     /**
      * isLocked
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {bool} neg
+     * @return {sQuery}
      */
     isLocked: function(neg) {
       this.layers = this.layers.slice().filter(layer => layer.isLocked())
@@ -182,9 +179,8 @@
 
     /**
      * startsWith
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {string} str
+     * @return {sQuery}
      */
     startsWith: function(str) {
       this.layers = this.layers.slice().filter(layer => layer.name().substr(0, str.length) == str)
@@ -193,9 +189,8 @@
 
     /**
      * endsWith
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {string} str
+     * @return {sQuery}
      */
     endsWith: function(str) {
       this.layers = this.layers.slice().filter(layer => layer.name().substr(layer.name().length() - str.length) == str)
@@ -204,9 +199,8 @@
 
     /**
      * contains
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {string} str
+     * @return {sQuery}
      */
     contains: function(str) {
       this.layers = this.layers.slice().filter(layer => layer.name().indexOf(str) != -1)
@@ -215,9 +209,8 @@
 
     /**
      * withName
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {string} name
+     * @return {sQuery}
      */
     withName: function(name) {
       this.layers = this.layers.slice().filter(layer => layer.name() == name);
@@ -226,23 +219,23 @@
 
     /**
      * childs
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     childs: function() {
-      const firstLayer = this.layers[0]
-      if (firstLayer.class() == "MSLayerGroup" || firstLayer.class() == "MSPage" || firstLayer.class() == "MSArtboardGroup") {
-        this.layers = firstLayer.children();
+      let all = [];
+      for(let i=0; i<this.layers.length; ++i) {
+        layerChilds = this.layers[i].children();
+        for(let j=0; j<layerChilds.length; ++j) {
+          all.push(layerChilds[j]);
+        }
       }
-      return this;
+      this.layers = all;
+      return this
     },
 
     /**
      * hasClickThrought
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     hasClickThrought: function() {
       const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
@@ -252,9 +245,7 @@
 
     /**
      * setHasClickThrough
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     setHasClickThrough: function() {
       let status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
@@ -265,9 +256,7 @@
 
     /**
      * toggleClickThrought
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     toggleClickThrought: function() {
       const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
@@ -277,9 +266,7 @@
 
     /**
      * isEmpty
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     isEmpty: function() {
       const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
@@ -289,9 +276,7 @@
 
     /**
      * isVisible
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     isVisible: function() {
       this.layers = this.layers.slice().filter(layer => layer.isVisible() == 1)
@@ -300,9 +285,7 @@
 
     /**
      * isHidden
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     isHidden: function() {
       this.layers = this.layers.slice().filter(layer => layer.isVisible() == 0)
@@ -310,66 +293,65 @@
     },
 
     /**
+     * visibility
+     * @param {bool} status
+     * @return {sQuery}
+     */
+    visibility: function(status) {
+      this.layers.slice().map(layer => layer.setIsVisible(status))
+      return this;
+    },
+
+    /**
      * show
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     show: function() {
-      this.layers.slice().map(layer => layer.setIsVisible(true))
+      this.layers.slice().map(layer => layer.setIsVisible(true));
       return this;
     },
 
     /**
      * hide
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     hide: function() {
-      this.layers.slice().map(layer => layer.setIsVisible(false))
+      this.layers.slice().map(layer => layer.setIsVisible(false));
       return this;
     },
 
     /**
      * lock
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     lock: function() {
-      this.layers.slice().map(layer => layer.setIsLocked(true))
+      this.layers.slice().map(layer => layer.setIsLocked(true));
       return this;
     },
 
     /**
      * unlock
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     unlock: function() {
-      this.layers.slice().map(layer => layer.setIsLocked(false))
+      this.layers.slice().map(layer => layer.setIsLocked(false));
       return this;
     },
 
     /**
      * duplicate
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {string} name
+     * @return {sQuery}
      */
     duplicate: function(name) {
-      const duplicateLayers = this.layers.slice().map(layer => layer.duplicate())
-      duplicateLayers.map(layer => layer.name = name)
+      const duplicateLayers = this.layers.slice().map(layer => layer.duplicate());
+      duplicateLayers.map(layer => layer.name = name);
       return this;
     },
 
     /**
      * remove
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     remove: function() {
       this.layers.slice().map(layer => layer.removeFromParent())
@@ -377,9 +359,8 @@
 
     /**
      * opacity
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {number} val
+     * @return {sQuery}
      */
     opacity: function(val) {
       if (val) {
@@ -391,9 +372,7 @@
 
     /**
      * absolutePosition
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     absolutePosition: function() {
       return this.layers.slice().map(layer => [layer.absoluteRect().x(), layer.absoluteRect().y()]);
@@ -401,9 +380,7 @@
 
     /**
      * relativePosition
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     relativePosition: function() {
       return this.layers.slice().map(layer =>
@@ -416,9 +393,8 @@
 
     /**
      * rename
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @param {string} name
+     * @return {sQuery}
      */
     rename: function(name) {
       this.layers.slice().map(layer => layer.name = name);
@@ -427,9 +403,7 @@
 
     /**
      * UISelect
-     * @param {...} ...
-     * @param {...} ...
-     * @return {...}
+     * @return {sQuery}
      */
     UISelect: function() {
       doc.currentPage().deselectAllLayers();
@@ -439,8 +413,7 @@
 
     /**
      * Itera por cada uno de los elementos previamente seleccionados y devuelve el elemento.
-     * @param {function} callback Una función a la que each llama por cada
-     * iteración.
+     * @param {function} callback Una función a la que each llama por cada iteración.
      * @return {sQuery}
      */
     each: function(callback) {
@@ -451,11 +424,10 @@
     },
 
     /**
-     * Itera por cada uno de los elementos filtrando los que devuelvan true
+     * Itera por cadItera por cada uno de los elementos filtrando los que devuelvan truea uno de los elementos filtrando los que devuelvan true
      * @param {function} callback Una función a la que filter llama por cada iteración.
      * @return {sQuery}
      */
-
     filter: function(callback) {
       let r = [];
       let k;
@@ -469,8 +441,16 @@
       return this;
     },
 
+    /**
+     * createArtboard
+     * @param {string} name
+     * @param {number} x
+     * @param {number} y
+     * @param {number} width
+     * @param {number} height
+     * @return {MSArtboardGroup}
+     */
     createArtboard: function(name, x, y, width, height) {
-
       // Get first layer. Should be a page
       try {
         const artboard = MSArtboardGroup.new();
@@ -487,13 +467,11 @@
 
         artboard.setIsSelected(true);
         return artboard;
+
       } catch(e) {
         log(e);
       }
     },
-
-
-
   }
 }
 )();
