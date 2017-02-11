@@ -423,7 +423,7 @@
     },
 
     /**
-     * Itera por cadItera por cada uno de los elementos filtrando los que devuelvan truea uno de los elementos filtrando los que devuelvan true
+     * Itera por cada uno de los elementos filtrando los que devuelvan truea uno de los elementos filtrando los que devuelvan true
      * @param {function} callback Una función a la que filter llama por cada iteración.
      * @return {sQuery}
      */
@@ -440,6 +440,11 @@
       return this;
     },
 
+    /**
+     * group
+     * @param {string} name
+     * @return {sQuery}
+     */
     group: function(name) {
       const layers = MSLayerArray.arrayWithLayers(this.layers);
       const group = MSLayerGroup.groupFromLayers(layers);
@@ -447,6 +452,15 @@
       return group;
     },
 
+    /**
+     * createShapeLayer
+     * @param {string} name
+     * @param {number} x
+     * @param {number} y
+     * @param {number} width
+     * @param {number} height
+     * @return {MSLayer}
+     */
     createShapeLayer: function(name, x, y, width, height) {
       const parentGroup = this.layers[0];
       const rectShape = MSRectangleShape.alloc().init();
