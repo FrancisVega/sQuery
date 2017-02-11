@@ -28,17 +28,17 @@
 
 (function(){
 
-  const sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard);
+  const sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard)
 
   const findObjectsByName = (name, scope) => {
-    const predicate = NSPredicate.predicateWithFormat("name == %@",name);
-    return scope.filteredArrayUsingPredicate(predicate);
-  };
+    const predicate = NSPredicate.predicateWithFormat("name == %@",name)
+    return scope.filteredArrayUsingPredicate(predicate)
+  }
 
   const findObjectsOfType = (classType, scope) => {
-    const predicate = NSPredicate.predicateWithFormat("self isKindOfClass: %@", classType);
-    return scope.filteredArrayUsingPredicate(predicate);
-  };
+    const predicate = NSPredicate.predicateWithFormat("self isKindOfClass: %@", classType)
+    return scope.filteredArrayUsingPredicate(predicate)
+  }
 
   const SQUERY = function(selector, page, artboard) {
 
@@ -46,58 +46,58 @@
       switch(selector) {
         // All
         case "*":
-          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape");
-          break;
+          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape")
+          break
 
         case "%hierarchy%":
-          this.layers = context.document.currentPage().currentArtboard().layers();
-          break;
+          this.layers = context.document.currentPage().currentArtboard().layers()
+          break
 
         case "%pages%":
-          this.layers = context.document.pages();
-          break;
+          this.layers = context.document.pages()
+          break
 
         case "%artboards%":
-          this.layers = context.document.currentPage().artboards();
-          break;
+          this.layers = context.document.currentPage().artboards()
+          break
 
         case "%images%":
-          this.layers = findObjectsOfType(MSBitmapLayer, context.document.currentPage().currentArtboard().children());
-          break;
+          this.layers = findObjectsOfType(MSBitmapLayer, context.document.currentPage().currentArtboard().children())
+          break
 
         case "%layers%":
-          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape" && layer.class() != "MSLayerGroup");
-          break;
+          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape" && layer.class() != "MSLayerGroup")
+          break
 
         case "%shapes%":
-          this.layers = findObjectsOfType(MSShapeGroup, context.document.currentPage().currentArtboard().children());
-          break;
+          this.layers = findObjectsOfType(MSShapeGroup, context.document.currentPage().currentArtboard().children())
+          break
 
         case "%groups%":
-          this.layers = findObjectsOfType(MSLayerGroup, context.document.currentPage().currentArtboard().children());
-          break;
+          this.layers = findObjectsOfType(MSLayerGroup, context.document.currentPage().currentArtboard().children())
+          break
 
         case "%textLayers%":
-          this.layers = findObjectsOfType(MSTextLayer, context.document.currentPage().currentArtboard().children());
-          break;
+          this.layers = findObjectsOfType(MSTextLayer, context.document.currentPage().currentArtboard().children())
+          break
 
         case "%selected%":
           this.layers = context.selection
-          break;
+          break
 
           // Default: Layer name.
         default:
-          this.layers = findObjectsByName(selector, context.document.currentPage().currentArtboard().children());
-          break;
+          this.layers = findObjectsByName(selector, context.document.currentPage().currentArtboard().children())
+          break
       }
     }
 
     if (typeof selector == "object") {
-      this.layers = [selector];
+      this.layers = [selector]
     }
 
-    return this;
-  };
+    return this
+  }
 
   /* @sQuery API */
 
@@ -108,7 +108,7 @@
      * @return {array}
      */
     sLayers: function() {
-      return this.layers;
+      return this.layers
     },
 
     /**
@@ -116,8 +116,8 @@
      * @return {sQuery}
      */
     texts: function() {
-      this.layers = this.layers.slice().filter(layer => layer.class() == MSTextLayer);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.class() == MSTextLayer)
+      return this
     },
 
     /**
@@ -125,8 +125,8 @@
      * @return {sQuery}
      */
     groups: function() {
-      this.layers = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.class() == MSLayerGroup)
+      return this
     },
 
     /**
@@ -134,8 +134,8 @@
      * @return {sQuery}
      */
     pages: function() {
-      this.layers = this.layers.slice().filter(layer => layer.class() == MSPage);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.class() == MSPage)
+      return this
     },
 
     /**
@@ -143,8 +143,8 @@
      * @return {sQuery}
      */
     artboards: function() {
-      this.layers = this.layers.slice().filter(layer => layer.class() == MSArtboardGroup);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.class() == MSArtboardGroup)
+      return this
     },
 
     /**
@@ -152,8 +152,8 @@
      * @return {sQuery}
      */
     shapes: function() {
-      this.layers = this.layers.slice().filter(layer => layer.class() == MSShapeGroup);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.class() == MSShapeGroup)
+      return this
     },
 
     /**
@@ -161,8 +161,8 @@
      * @return {sQuery}
      */
     images: function() {
-      this.layers = this.layers.slice().filter(layer => layer.class() == MSBitmapLayer);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.class() == MSBitmapLayer)
+      return this
     },
 
     /**
@@ -172,7 +172,7 @@
      */
     isLocked: function(neg) {
       this.layers = this.layers.slice().filter(layer => layer.isLocked())
-      return this;
+      return this
     },
 
     /**
@@ -182,7 +182,7 @@
      */
     startsWith: function(str) {
       this.layers = this.layers.slice().filter(layer => layer.name().substr(0, str.length) == str)
-      return this;
+      return this
     },
 
     /**
@@ -192,7 +192,7 @@
      */
     endsWith: function(str) {
       this.layers = this.layers.slice().filter(layer => layer.name().substr(layer.name().length() - str.length) == str)
-      return this;
+      return this
     },
 
     /**
@@ -202,7 +202,7 @@
      */
     contains: function(str) {
       this.layers = this.layers.slice().filter(layer => layer.name().indexOf(str) != -1)
-      return this;
+      return this
     },
 
     /**
@@ -211,8 +211,8 @@
      * @return {sQuery}
      */
     withName: function(name) {
-      this.layers = this.layers.slice().filter(layer => layer.name() == name);
-      return this;
+      this.layers = this.layers.slice().filter(layer => layer.name() == name)
+      return this
     },
 
     /**
@@ -220,14 +220,14 @@
      * @return {sQuery}
      */
     childs: function() {
-      let all = [];
+      let all = []
       for(let i=0; i<this.layers.length; ++i) {
-        layerChilds = this.layers[i].children();
+        layerChilds = this.layers[i].children()
         for(let j=0; j<layerChilds.length; ++j) {
-          all.push(layerChilds[j]);
+          all.push(layerChilds[j])
         }
       }
-      this.layers = all;
+      this.layers = all
       return this
     },
 
@@ -236,9 +236,9 @@
      * @return {sQuery}
      */
     hasClickThrought: function() {
-      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
-      this.layers = groups.filter(layer => layer.hasClickThrough());
-      return this;
+      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup)
+      this.layers = groups.filter(layer => layer.hasClickThrough())
+      return this
     },
 
     /**
@@ -246,10 +246,10 @@
      * @return {sQuery}
      */
     setHasClickThrough: function() {
-      let status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
+      let status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
+      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup)
       groups.map(layer => layer.setHasClickThrough(status))
-      return this;
+      return this
     },
 
     /**
@@ -257,9 +257,9 @@
      * @return {sQuery}
      */
     toggleClickThrought: function() {
-      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
+      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup)
       groups.map(layer => layer.setHasClickThrough(!layer.hasClickThrough()))
-      return this;
+      return this
     },
 
     /**
@@ -267,9 +267,9 @@
      * @return {sQuery}
      */
     isEmpty: function() {
-      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
+      const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup)
       this.layers = groups.filter(layer => layer.layers().length === 0)
-      return this;
+      return this
     },
 
     /**
@@ -278,7 +278,7 @@
      */
     isVisible: function() {
       this.layers = this.layers.slice().filter(layer => layer.isVisible() == 1)
-      return this;
+      return this
     },
 
     /**
@@ -287,7 +287,7 @@
      */
     isHidden: function() {
       this.layers = this.layers.slice().filter(layer => layer.isVisible() == 0)
-      return this;
+      return this
     },
 
     /**
@@ -297,7 +297,7 @@
      */
     visibility: function(status) {
       this.layers.slice().map(layer => layer.setIsVisible(status))
-      return this;
+      return this
     },
 
     /**
@@ -305,8 +305,8 @@
      * @return {sQuery}
      */
     show: function() {
-      this.layers.slice().map(layer => layer.setIsVisible(true));
-      return this;
+      this.layers.slice().map(layer => layer.setIsVisible(true))
+      return this
     },
 
     /**
@@ -314,8 +314,8 @@
      * @return {sQuery}
      */
     hide: function() {
-      this.layers.slice().map(layer => layer.setIsVisible(false));
-      return this;
+      this.layers.slice().map(layer => layer.setIsVisible(false))
+      return this
     },
 
     /**
@@ -323,8 +323,8 @@
      * @return {sQuery}
      */
     lock: function() {
-      this.layers.slice().map(layer => layer.setIsLocked(true));
-      return this;
+      this.layers.slice().map(layer => layer.setIsLocked(true))
+      return this
     },
 
     /**
@@ -332,8 +332,8 @@
      * @return {sQuery}
      */
     unlock: function() {
-      this.layers.slice().map(layer => layer.setIsLocked(false));
-      return this;
+      this.layers.slice().map(layer => layer.setIsLocked(false))
+      return this
     },
 
     /**
@@ -342,10 +342,10 @@
      * @return {sQuery}
      */
     duplicate: function(name) {
-      const duplicateLayers = this.layers.slice().map(layer => layer.duplicate());
-      duplicateLayers.map(layer => layer.name = name);
+      const duplicateLayers = this.layers.slice().map(layer => layer.duplicate())
+      duplicateLayers.map(layer => layer.name = name)
       this.layers = duplicateLayers
-      return this;
+      return this
     },
 
     /**
@@ -374,7 +374,7 @@
      * @return {sQuery}
      */
     absolutePosition: function() {
-      return this.layers.slice().map(layer => [layer.absoluteRect().x(), layer.absoluteRect().y()]);
+      return this.layers.slice().map(layer => [layer.absoluteRect().x(), layer.absoluteRect().y()])
     },
 
     /**
@@ -387,7 +387,7 @@
           layer.absoluteRect().x() - layer.parentRootForAbsoluteRect().rect().origin.x,
           layer.absoluteRect().y() - layer.parentRootForAbsoluteRect().rect().origin.y
         ]
-      );
+      )
     },
 
     /**
@@ -396,8 +396,8 @@
      * @return {sQuery}
      */
     rename: function(name) {
-      this.layers.slice().map(layer => layer.name = name);
-      return this;
+      this.layers.slice().map(layer => layer.name = name)
+      return this
     },
 
     /**
@@ -405,9 +405,9 @@
      * @return {sQuery}
      */
     UISelect: function() {
-      doc.currentPage().deselectAllLayers();
+      doc.currentPage().deselectAllLayers()
       this.layers.slice().map(layer => layer.select_byExpandingSelection(true, true))
-      return this;
+      return this
     },
 
     /**
@@ -417,9 +417,9 @@
      */
     each: function(callback) {
       for(let i=0, len=this.layers.length; i<len; ++i) {
-        callback.call(this.layers[i], i);
+        callback.call(this.layers[i], i)
       }
-      return this;
+      return this
     },
 
     /**
@@ -428,16 +428,16 @@
      * @return {sQuery}
      */
     filter: function(callback) {
-      let r = [];
-      let k;
+      let r = []
+      let k
       for(let i=0, len=this.layers.length; i<len; ++i) {
-        k = callback.call(this.layers[i], i);
+        k = callback.call(this.layers[i], i)
         if(k) {
-          r.push(this.layers[i]);
+          r.push(this.layers[i])
         }
       }
-      this.layers = r.slice();
-      return this;
+      this.layers = r.slice()
+      return this
     },
 
     /**
@@ -446,10 +446,10 @@
      * @return {sQuery}
      */
     group: function(name) {
-      const layers = MSLayerArray.arrayWithLayers(this.layers);
-      const group = MSLayerGroup.groupFromLayers(layers);
-      group.setName(name);
-      return group;
+      const layers = MSLayerArray.arrayWithLayers(this.layers)
+      const group = MSLayerGroup.groupFromLayers(layers)
+      group.setName(name)
+      return group
     },
 
     /**
@@ -462,13 +462,13 @@
      * @return {MSLayer}
      */
     createShapeLayer: function(name, x, y, width, height) {
-      const parentGroup = this.layers[0];
-      const rectShape = MSRectangleShape.alloc().init();
-      rectShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,width,height));
-      const shapeGroup = MSShapeGroup.shapeWithPath(rectShape);
-      shapeGroup.name = name;
-      this.layers[0].addLayers([shapeGroup]);
-      return shapeGroup;
+      const parentGroup = this.layers[0]
+      const rectShape = MSRectangleShape.alloc().init()
+      rectShape.frame = MSRect.rectWithRect(NSMakeRect(x,y,width,height))
+      const shapeGroup = MSShapeGroup.shapeWithPath(rectShape)
+      shapeGroup.name = name
+      this.layers[0].addLayers([shapeGroup])
+      return shapeGroup
     },
 
     /**
@@ -482,25 +482,25 @@
      */
     createArtboard: function(name, x, y, width, height) {
       try {
-        const artboard = MSArtboardGroup.new();
-        const frame = artboard.frame();
-        frame.setX(x);
-        frame.setY((y));
-        frame.setWidth(width);
-        frame.setHeight(height);
-        artboard.name = name;
+        const artboard = MSArtboardGroup.new()
+        const frame = artboard.frame()
+        frame.setX(x)
+        frame.setY((y))
+        frame.setWidth(width)
+        frame.setHeight(height)
+        artboard.name = name
 
-        this.layers[0].addLayers([artboard]);
-        this.layers[0].deselectAllLayers();
-        this.layers[0].currentArtboard = artboard;
+        this.layers[0].addLayers([artboard])
+        this.layers[0].deselectAllLayers()
+        this.layers[0].currentArtboard = artboard
 
-        artboard.setIsSelected(true);
-        return artboard;
+        artboard.setIsSelected(true)
+        return artboard
 
       } catch(e) {
-        log(e);
+        log(e)
       }
     },
   }
 }
-)();
+)()
