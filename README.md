@@ -1,4 +1,4 @@
-# sQuery
+# sQuery 1.0
 A growing small library of chain methods "in a jQuery way" for Sketch to make the selection and filter task a little easiest :)
 
 # Install
