@@ -95,7 +95,7 @@ $("%selected%").move({"x":20, "y":0}, true);
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Francis
+Copyright (c) 2017 Francis
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
