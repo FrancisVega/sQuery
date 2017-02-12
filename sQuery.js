@@ -30,15 +30,36 @@
 
   const sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard)
 
+  /**
+   * findObjectsByName
+   * @param {string} name The name of the object (layer)
+   * @param {scope} scope The scope (layers) of search
+   * @return {MSArray}
+   */
   const findObjectsByName = (name, scope) => {
     const predicate = NSPredicate.predicateWithFormat("name == %@",name)
     return scope.filteredArrayUsingPredicate(predicate)
   }
 
+  /**
+   * findObjectsOfType
+   * @param {string|classType} classType The name of the class type
+   * @param {scope} scope The scope (layers) of search
+   * @return {MSArray}
+   */
   const findObjectsOfType = (classType, scope) => {
     const predicate = NSPredicate.predicateWithFormat("self isKindOfClass: %@", classType)
     return scope.filteredArrayUsingPredicate(predicate)
   }
+
+  /**
+   * flattenArray
+   * @param {array} arr The array to flatten
+   * @return {array} return a one level deep array
+   */
+  const flattenArray = arr => arr.reduce(
+    (flat, toFlatten) => flat.concat(
+      Array.isArray(toFlatten) ? flattenArray(toFlatten) : toFlatten), [])
 
   const SQUERY = function(selector, page, artboard) {
 
@@ -85,7 +106,7 @@
           this.layers = context.selection
           break
 
-          // Default: Layer name.
+        // Default: Layer name.
         default:
           this.layers = findObjectsByName(selector, context.document.currentPage().currentArtboard().children())
           break
