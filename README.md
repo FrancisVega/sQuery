@@ -42,9 +42,9 @@ $("%images%").rename("Hi! I'm a bitmaps layer");
 ```
 
 ````javascript
-/* Get MSLayer object from query and log the class */
+/* Get the last layer object from query and log the class */
 $("%selected%").each(function(){
-  log($(this).MSLayer().class());
+  log($(this).layers[0].class());
 });
 ```
 
