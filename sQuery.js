@@ -259,8 +259,7 @@
      * setHasClickThrough
      * @return {sQuery}
      */
-    setHasClickThrough: function() {
-      let status = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0
+    setHasClickThrough: function(status = false) {
       const groups = this.layers.slice().filter(layer => layer.class() == MSLayerGroup)
       groups.map(layer => layer.setHasClickThrough(status))
       return this
