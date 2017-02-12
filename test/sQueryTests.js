@@ -14,9 +14,9 @@ const GROUPNAME = 'new-group'
 sTrue("ClickThrough", function() {
 
   // @Setup
-  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
-  var layer = $(artboard).createShapeLayer(LAYERNAME)
-  var newGroup = $("%shapes%").group(GROUPNAME)
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const layer = $(artboard).createShapeLayer(LAYERNAME)
+  const newGroup = $("%shapes%").group(GROUPNAME)
 
   // @Tests
   $(newGroup).setHasClickThrough(true)
@@ -36,11 +36,11 @@ sTrue("ClickThrough", function() {
 sTrue("Duplicar capas y grupos", function() {
 
   // @Setup
-  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
-  var layer = $(artboard).createShapeLayer(LAYERNAME)
-  var newGroup = $("%shapes%").group(GROUPNAME)
-  var duplicateLayer = $(layer).duplicate(DUPLICATELAYERNAME)
-  var duplicateGroup = $(newGroup).duplicate(DUPLICATEGROUPNAME)
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const layer = $(artboard).createShapeLayer(LAYERNAME)
+  const newGroup = $("%shapes%").group(GROUPNAME)
+  const duplicateLayer = $(layer).duplicate(DUPLICATELAYERNAME)
+  const duplicateGroup = $(newGroup).duplicate(DUPLICATEGROUPNAME)
 
   // @Tests
   this.isEqual(duplicateLayer.layers[0].name(), DUPLICATELAYERNAME)
@@ -58,7 +58,7 @@ sTrue("Duplicar capas y grupos", function() {
 sTrue("Artboard", function() {
 
   // @Setup
-  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
 
   // @Tests
   this.isClass(artboard, "MSArtboardGroup")
@@ -76,8 +76,8 @@ sTrue("Artboard", function() {
 sTrue("Crear una capa tipo Shape", function() {
 
   // @Setup
-  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
-  var newLayer = $(artboard).createShapeLayer(ARTBOARDNAME)
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const newLayer = $(artboard).createShapeLayer(ARTBOARDNAME)
 
   // @Tests
   this.isClass(newLayer, "MSShapeGroup")
@@ -94,8 +94,8 @@ sTrue("Crear una capa tipo Shape", function() {
 sTrue("Borra una capa", function() {
 
   // @Setup
-  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
-  var newLayer = $(artboard).createShapeLayer(ARTBOARDNAME)
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const newLayer = $(artboard).createShapeLayer(ARTBOARDNAME)
   $(newLayer).remove()
 
   // @Tests
@@ -112,9 +112,9 @@ sTrue("Borra una capa", function() {
 sTrue("Agrupar capas", function() {
 
   // @Setup
-  var artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
-  var layer = $(artboard).createShapeLayer(LAYERNAME)
-  var newGroup = $("%shapes%").group(GROUPNAME)
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const layer = $(artboard).createShapeLayer(LAYERNAME)
+  const newGroup = $("%shapes%").group(GROUPNAME)
 
   // @Tests
   this.isClass(newGroup, "MSLayerGroup")
