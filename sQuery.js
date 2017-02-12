@@ -241,14 +241,7 @@
      * @return {sQuery}
      */
     childs: function() {
-      let all = []
-      for(let i=0; i<this.layers.length; ++i) {
-        layerChilds = this.layers[i].children()
-        for(let j=0; j<layerChilds.length; ++j) {
-          all.push(layerChilds[j])
-        }
-      }
-      this.layers = all
+      this.layers = flattenArray(this.layers.slice().map(layer => layer.children().slice()))
       return this
     },
 
