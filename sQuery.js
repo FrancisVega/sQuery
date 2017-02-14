@@ -187,10 +187,9 @@
 
     /**
      * isLocked
-     * @param {bool} neg
      * @return {sQuery}
      */
-    isLocked: function(neg) {
+    isLocked: function() {
       this.layers = this.layers.slice().filter(layer => layer.isLocked())
       return this
     },
