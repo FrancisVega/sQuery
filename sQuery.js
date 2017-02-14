@@ -23,7 +23,7 @@
   *
   */
 
-  var sQuery, $;
+  let sQuery, $;
 
 (function(){
 
@@ -428,7 +428,7 @@
      * @return {sQuery}
      */
     UISelect: function() {
-      doc.currentPage().deselectAllLayers()
+      context.document.currentPage().deselectAllLayers()
       this.layers.slice().map(layer => layer.select_byExpandingSelection(true, true))
       return this
     },
