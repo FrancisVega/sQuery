@@ -126,3 +126,21 @@ sTrue("Agrupar capas", function() {
   $(artboard).remove()
 
 })
+
+/*
+sTrue("Title", function() {
+  // @Setup
+  const artboard = $(CURRENTPAGE).createArtboard(ARTBOARDNAME, 0, 0, 800, 600)
+  const layer = $(artboard).createShapeLayer(LAYERNAME)
+  const newGroup = $("%shapes%").group(GROUPNAME)
+
+  // @Tests
+  //this.isTrue()
+  //this.isFalse()
+  //this.isEqual()
+  //this.isNotEqual()
+  //this.isClass()
+
+  // @End
+})
+*/

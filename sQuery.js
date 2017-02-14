@@ -19,16 +19,15 @@
 
  /*
   *
-  *  sQuery 1.0
+  *  sQuery 0.1
   *
   */
 
-  const doc = context.document;
-  const page = doc.currentPage();
+  var sQuery, $;
 
 (function(){
 
-  const sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard)
+  sQuery = $ = (selector, page, artboard) => new SQUERY(selector, page, artboard)
 
   /**
    * findObjectsByName
@@ -241,7 +240,18 @@
      * @return {sQuery}
      */
     childs: function() {
-      this.layers = flattenArray(this.layers.slice().map(layer => layer.children().slice()))
+      this.layers = flattenArray(
+        this.layers.slice().map(function(layer) {
+          if (layer.class() == MSSymbolInstance) {
+            const symbolMasterId = layer.symbolMaster().objectID()
+            const symbolChilds = layer.symbolMaster().children().slice()
+            const symbolChildsWithoutSymbolItself = symbolChilds.filter(symbolChildsLayer => symbolChildsLayer.objectID() != symbolMasterId)
+            return symbolChildsWithoutSymbolItself
+          } else {
+            return layer.children().slice()
+          }
+        })
+      )
       return this
     },
 
