@@ -46,10 +46,7 @@
    * @param {scope} scope The scope (layers) of search
    * @return {MSArray}
    */
-  const findObjectsOfType = (classType, scope) => {
-    const predicate = NSPredicate.predicateWithFormat("self isKindOfClass: %@", classType)
-    return scope.filteredArrayUsingPredicate(predicate)
-  }
+  const findObjectsOfType = (classType, scope) => scope.slice().filter(lyr => lyr.class() == classType)
 
   /**
    * flattenArray
