@@ -20,7 +20,7 @@ $("*").hide()
 ````javascript
 /* Hide all text layers with less than 10% opacity */
 $("%textLayers%").filter(function(){
-    return $(this).opacity() < 10;
+    return $(this).opacity() < 0.1;
 }).hide();
 ```
 
@@ -39,13 +39,6 @@ $("%groups%").isEmpty().remove();
 ````javascript
 /* Rename all bitmaps layers */
 $("%images%").rename("Hi! I'm a bitmaps layer");
-```
-
-````javascript
-/* Get the last layer object from query and log the class */
-$("%selected%").each(function(){
-  log($(this).layers[0].class());
-});
 ```
 
 # Write plugins
