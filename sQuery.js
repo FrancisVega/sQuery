@@ -427,7 +427,7 @@
      * @return {sQuery}
      */
     UISelect: function() {
-      context.document.currentPage().deselectAllLayers()
+      context.selection[0].select_byExpandingSelection(0, 0)
       this.layers.slice().map(layer => layer.select_byExpandingSelection(true, true))
       return this
     },
@@ -507,16 +507,18 @@
         const artboard = MSArtboardGroup.new()
         const frame = artboard.frame()
         frame.setX(x)
-        frame.setY((y))
+        frame.setY(y)
         frame.setWidth(width)
         frame.setHeight(height)
         artboard.name = name
 
-        this.layers[0].addLayers([artboard])
-        this.layers[0].deselectAllLayers()
-        this.layers[0].currentArtboard = artboard
-
-        artboard.setIsSelected(true)
+        const page = this.layers[0]
+        page.addLayers([artboard])
+        try {
+          context.selection[0].select_byExpandingSelection(0, 0)
+        } catch(e) { log(e) }
+        page.currentArtboard = artboard
+        artboard.select_byExpandingSelection(true, true)
         return artboard
 
       } catch(e) {
