@@ -514,11 +514,9 @@
 
         const page = this.layers[0]
         page.addLayers([artboard])
-        try {
-          context.selection[0].select_byExpandingSelection(0, 0)
-        } catch(e) { log(e) }
         page.currentArtboard = artboard
-        artboard.select_byExpandingSelection(true, true)
+        artboard.select_byExpandingSelection(1, 0)
+
         return artboard
 
       } catch(e) {
