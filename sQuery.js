@@ -36,7 +36,7 @@
    * @return {MSArray}
    */
   const findObjectsByName = (name, scope) => {
-    const predicate = NSPredicate.predicateWithFormat("name == %@",name)
+    const predicate = NSPredicate.predicateWithFormat("name == %@", name)
     return scope.filteredArrayUsingPredicate(predicate)
   }
 
@@ -53,49 +53,55 @@
    * @param {array} arr The array to flatten
    * @return {array} return a one level deep array
    */
-  const flattenArray = arr => arr.reduce(
-    (flat, toFlatten) => flat.concat(
-      Array.isArray(toFlatten) ? flattenArray(toFlatten) : toFlatten), [])
+  const flattenArray = arr => arr.reduce( (flat, toFlatten) =>
+    flat.concat( Array.isArray(toFlatten) ? flattenArray(toFlatten) : toFlatten), []
+  )
 
   const SQUERY = function(selector, page, artboard) {
 
     if (typeof selector == "string") {
+
+      // Consts
+      const DOC = context.document;
+      const CURRENTPAGE = DOC.currentPage();
+      const CURRENTARTBOARD = CURRENTPAGE.currentArtboard();
+
       switch(selector) {
         // All
         case "*":
-          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape")
+          this.layers = CURRENTARTBOARD.children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape")
           break
 
         case "%hierarchy%":
-          this.layers = context.document.currentPage().currentArtboard().layers()
+          this.layers = CURRENTARTBOARD.layers()
           break
 
         case "%pages%":
-          this.layers = context.document.pages()
+          this.layers = DOC.pages()
           break
 
         case "%artboards%":
-          this.layers = context.document.currentPage().artboards()
+          this.layers = CURRENTPAGE.artboards()
           break
 
         case "%images%":
-          this.layers = findObjectsOfType(MSBitmapLayer, context.document.currentPage().currentArtboard().children())
+          this.layers = findObjectsOfType(MSBitmapLayer, CURRENTARTBOARD.children())
           break
 
         case "%layers%":
-          this.layers = context.document.currentPage().currentArtboard().children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape" && layer.class() != "MSLayerGroup")
+          this.layers = CURRENTARTBOARD.children().slice().filter(layer => layer.class() != "MSArtboardGroup" && layer.class() != "MSRectangleShape" && layer.class() != "MSLayerGroup")
           break
 
         case "%shapes%":
-          this.layers = findObjectsOfType(MSShapeGroup, context.document.currentPage().currentArtboard().children())
+          this.layers = findObjectsOfType(MSShapeGroup, CURRENTARTBOARD.children())
           break
 
         case "%groups%":
-          this.layers = findObjectsOfType(MSLayerGroup, context.document.currentPage().currentArtboard().children())
+          this.layers = findObjectsOfType(MSLayerGroup, CURRENTARTBOARD.children())
           break
 
         case "%textLayers%":
-          this.layers = findObjectsOfType(MSTextLayer, context.document.currentPage().currentArtboard().children())
+          this.layers = findObjectsOfType(MSTextLayer, CURRENTARTBOARD.children())
           break
 
         case "%selected%":
@@ -104,7 +110,7 @@
 
         // Default: Layer name.
         default:
-          this.layers = findObjectsByName(selector, context.document.currentPage().currentArtboard().children())
+          this.layers = findObjectsByName(selector, CURRENTARTBOARD.children())
           break
       }
     }
