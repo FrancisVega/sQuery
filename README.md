@@ -1,9 +1,14 @@
+> Archived :\*
+
 # sQuery
+
 A growing small library of chain methods "in a jQuery way" for Sketch to make the selection and filter task a little easiest :)
 
 # Install
+
 Copy sQuery.js inside your sketch plugin bundle.
 Then just import them into your scripts.
+
 ```javascript
 // Import sQuery
 @import 'sQuery.js';
@@ -12,22 +17,25 @@ Then just import them into your scripts.
 ```
 
 # Some (silly) examples
+
 ```javascript
 /* Hide all layers and groups */
-$("*").hide()
+$("*").hide();
 ```
 
 ```javascript
 /* Hide all text layers with less than 10% opacity */
-$("%textLayers%").filter(function(){
+$("%textLayers%")
+  .filter(function () {
     return $(this).opacity() < 0.1;
-}).hide();
+  })
+  .hide();
 ```
 
 ```javascript
 /* Loop through each group and rename it with and "index" */
-$("%groups%").each(function(idx){
-    $(this).rename("I'm group number " + idx);
+$("%groups%").each(function (idx) {
+  $(this).rename("I'm group number " + idx);
 });
 ```
 
@@ -42,15 +50,19 @@ $("%images%").rename("Hi! I'm a bitmaps layer");
 ```
 
 # Write plugins
+
 ```javascript
 /* Example of groups filter plugin */
-  $.fn.areGroups = function() {
-    this.layers = this.layers.slice().filter(layer => layer.class() == MSLayerGroup);
-    return this;
-  }
+$.fn.areGroups = function () {
+  this.layers = this.layers
+    .slice()
+    .filter((layer) => layer.class() == MSLayerGroup);
+  return this;
+};
 ```
 
 # Plugins
+
 ```javascript
 /* Rename groups from selection */
 $("%selected%").areGroups().rename("I'm a group");
@@ -59,7 +71,7 @@ $("%selected%").areGroups().rename("I'm a group");
 $("%selected%").areShapes().UISelect();
 
 /* Move selected layers by 20 units in x at fixed pixel coords */
-$("%selected%").move({"x":20, "y":0}, true);
+$("%selected%").move({ x: 20, y: 0 }, true);
 ```
 
 # Method list
